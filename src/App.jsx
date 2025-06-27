@@ -9,12 +9,13 @@ import Portfolio from './pages/Portfolio'
 import Resume from './pages/Resume'
 import Contact from './pages/Contact'
 import InfoSession from './pages/InfoSession'
+import StudentShowcase from './pages/StudentShowcase'
 
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <div className="flex-grow">
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/about" element={<About />} />
@@ -23,8 +24,9 @@ function App() {
           <Route path="/resume" element={<Resume />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/info-session" element={<InfoSession />} />
+          <Route path="/showcase/:studentId" element={<StudentShowcase />} />
         </Routes>
-      </main>
+      </div>
       <Footer />
     </div>
   )
