@@ -2,116 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Engineering Theme Styles */
+/* Professional Engineering Website Styles */
 @layer base {
-  :root {
-    --color-engineering-50: 240 249 255;
-    --color-engineering-100: 224 242 254;
-    --color-engineering-200: 186 230 253;
-    --color-engineering-300: 125 211 252;
-    --color-engineering-400: 56 189 248;
-    --color-engineering-500: 14 165 233;
-    --color-engineering-600: 2 132 199;
-    --color-engineering-700: 3 105 161;
-    --color-engineering-800: 7 89 133;
-    --color-engineering-900: 12 74 110;
-    
-    --color-tech-50: 248 250 252;
-    --color-tech-100: 241 245 249;
-    --color-tech-200: 226 232 240;
-    --color-tech-300: 203 213 225;
-    --color-tech-400: 148 163 184;
-    --color-tech-500: 100 116 139;
-    --color-tech-600: 71 85 105;
-    --color-tech-700: 51 65 85;
-    --color-tech-800: 30 41 59;
-    --color-tech-900: 15 23 42;
-    
-    --color-accent-50: 255 247 237;
-    --color-accent-100: 255 237 213;
-    --color-accent-200: 254 215 170;
-    --color-accent-300: 253 186 116;
-    --color-accent-400: 251 146 60;
-    --color-accent-500: 249 115 22;
-    --color-accent-600: 234 88 12;
-    --color-accent-700: 194 65 12;
-    --color-accent-800: 154 52 18;
-    --color-accent-900: 124 45 18;
-  }
-  
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-feature-settings: 'cv11', 'ss01';
-    font-variant-numeric: tabular-nums;
   }
 }
 
-@layer components {
-  .bg-engineering-gradient {
-    background: linear-gradient(135deg, rgb(12 74 110) 0%, rgb(30 41 59) 50%, rgb(7 89 133) 100%);
-  }
-  
-  .text-gradient-engineering {
-    background: linear-gradient(135deg, rgb(255 255 255) 0%, rgb(186 230 253) 50%, rgb(253 186 116) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .hero-pattern {
-    background-image: 
-      linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.02) 50%, transparent 50%, transparent 75%, rgba(255,255,255,0.02) 75%),
-      linear-gradient(135deg, rgb(12 74 110) 0%, rgb(30 41 59) 50%, rgb(7 89 133) 100%);
-    background-size: 24px 24px, 100% 100%;
-  }
-
-  .card-hover {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-  }
-  
-  .card-hover:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  }
-}
-
-@layer utilities {
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-fade-in {
-    animation: fadeIn 0.6s ease-out;
-  }
-  
-  .animate-slide-up {
-    animation: slideUp 0.8s ease-out;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes slideUp {
-    from { 
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to { 
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
-/* Section 508 Accessibility Enhancements */
+/* Section 508 Accessibility */
 @layer base {
   .sr-only {
     position: absolute;
@@ -134,20 +32,5 @@
     overflow: visible;
     clip: auto;
     white-space: normal;
-  }
-  
-  /* High contrast focus indicators */
-  .focus\:ring-engineering-500:focus {
-    outline: 2px solid rgb(14 165 233);
-    outline-offset: 2px;
-  }
-  
-  /* Ensure text contrast meets WCAG standards */
-  .text-tech-600 {
-    color: rgb(71 85 105);
-  }
-  
-  .text-engineering-100 {
-    color: rgb(224 242 254);
   }
 }
