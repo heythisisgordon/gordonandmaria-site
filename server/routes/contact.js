@@ -105,7 +105,7 @@ router.post('/', async (req, res) => {
     // Email content
     const emailOptions = {
       from: 'info@humancenteredsystems.io',
-      to: 'info@humancenteredsystems.io',
+      to: 'gordon@humancenteredsystems.io',
       replyTo: sanitizedEmail,
       subject: `New Contact Form Inquiry - ${sanitizedName}`,
       html: `
