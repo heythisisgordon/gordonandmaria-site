@@ -57,17 +57,29 @@ const createTransporter = () => {
     }
   };
   
-  return nodemailer.createTransporter(emailConfig);
+  return nodemailer.createTransport(emailConfig);
+};
+
+// Business intelligence logging helper
+const logSubmission = (name, email, correlationId) => {
+  const timestamp = new Date().toISOString();
+  const domain = email.split('@')[1];
+  console.log(`BUSINESS_METRIC: contact_form_submission,${timestamp},${correlationId},${domain}`);
 };
 
 // POST /api/contact
 router.post('/', async (req, res) => {
+  const correlationId = req.correlationId || 'unknown';
+  
   try {
     const { name, email, message } = req.body;
+    
+    console.log(`[${correlationId}] Contact form submission attempt from: ${email}`);
     
     // Validate input
     const validationErrors = validateInput(name, email, message);
     if (validationErrors.length > 0) {
+      console.log(`[${correlationId}] Validation failed: ${validationErrors.join(', ')}`);
       return res.status(400).json({
         success: false,
         errors: validationErrors
@@ -81,7 +93,7 @@ router.post('/', async (req, res) => {
     
     // Check if email service is configured
     if (!process.env.EMAIL_PASSWORD) {
-      console.error('Email password not configured');
+      console.error(`[${correlationId}] Email password not configured`);
       return res.status(500).json({
         success: false,
         error: 'Email service is currently unavailable. Please try again later.'
@@ -94,8 +106,9 @@ router.post('/', async (req, res) => {
     // Verify connection
     try {
       await transporter.verify();
+      console.log(`[${correlationId}] SMTP connection verified successfully`);
     } catch (verifyError) {
-      console.error('SMTP connection failed:', verifyError);
+      console.error(`[${correlationId}] SMTP connection failed:`, verifyError);
       return res.status(500).json({
         success: false,
         error: 'Email service is currently unavailable. Please try again later.'
@@ -161,25 +174,37 @@ router.post('/', async (req, res) => {
       `
     };
     
-    // Send email
-    await transporter.sendMail(emailOptions);
+    // Send email with delivery verification
+    const info = await transporter.sendMail(emailOptions);
+    
+    // Verify email was sent successfully
+    console.log(`[${correlationId}] Email sent successfully: ${info.messageId}`);
+    
+    // Log business intelligence data
+    logSubmission(sanitizedName, sanitizedEmail, correlationId);
     
     // Log successful submission (without sensitive data)
-    console.log(`Contact form submitted by: ${sanitizedName} (${sanitizedEmail}) at ${new Date().toISOString()}`);
+    console.log(`[${correlationId}] Contact form submitted by: ${sanitizedName} (${sanitizedEmail}) at ${new Date().toISOString()}`);
     
-    // Return success response
+    // Return success response with message tracking
     res.json({
       success: true,
-      message: 'Thank you for your message! We\'ll get back to you within 24 hours.'
+      message: 'Thank you for your message! We\'ll get back to you within 24 hours.',
+      messageId: info.messageId, // For internal tracking
+      submissionId: correlationId
     });
     
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error(`[${correlationId}] Contact form error:`, error);
+    
+    // Log admin alert for critical failures
+    console.error(`ADMIN_ALERT: Contact form failure - Correlation ID: ${correlationId}, Error: ${error.message}`);
     
     // Don't expose internal errors to client
     res.status(500).json({
       success: false,
-      error: 'Unable to send message at this time. Please try again later or contact us directly at info@humancenteredsystems.io.'
+      error: 'Unable to send message at this time. Please try again later or contact us directly at info@humancenteredsystems.io.',
+      submissionId: correlationId // For user reference when contacting support
     });
   }
 });
