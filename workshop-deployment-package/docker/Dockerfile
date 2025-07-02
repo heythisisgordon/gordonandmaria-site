@@ -35,6 +35,10 @@ RUN chown -R coder:coder /home/coder/
 USER coder
 WORKDIR /home/coder/project
 
+# Configure npm to use user directory for global packages
+RUN npm config set prefix '/home/coder/.npm-global'
+ENV PATH="/home/coder/.npm-global/bin:$PATH"
+
 # Install Node.js packages as coder user
 RUN npm install -g http-proxy
 
