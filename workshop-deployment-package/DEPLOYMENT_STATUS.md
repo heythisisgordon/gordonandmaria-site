@@ -14,19 +14,24 @@
 - ✅ **Render Configuration**: Complete container specifications
 - ✅ **Documentation**: Implementation and deployment guides
 
-## ✅ CRITICAL FIX APPLIED: Docker Build Issue Resolved
+## ✅ CRITICAL FIXES APPLIED: Build + Runtime Issues Resolved
 
-### Dockerfile Fix Completed (Option 2 Implementation):
+### Fix #1: Docker Build Issue (RESOLVED)
 - **Issue**: NPM permission error `EACCES: permission denied, mkdir '/usr/lib/node_modules/http-proxy'`
-- **Root Cause**: Dual Node.js installation + user context npm global package installation
-- **Solution**: Install global packages as root before switching to user context
-- **Status**: ✅ FIXED - Ready for deployment
+- **Solution**: Eliminated dual Node.js installation conflicts
+- **Status**: ✅ FIXED
+
+### Fix #2: Runtime Module Resolution Issue (RESOLVED)
+- **Issue**: `Error: Cannot find module 'http-proxy'` at container startup
+- **Root Cause**: Global packages installed as root not accessible to coder user
+- **Solution**: Install http-proxy locally as coder user with package.json
+- **Status**: ✅ FIXED
 
 ### Key Changes Made:
 1. **Eliminated Dual Node.js**: Removed conflicting apt nodejs/npm packages
 2. **Single Clean Installation**: NodeSource Node.js 18.x only
-3. **Root Global Packages**: `npm install -g http-proxy` runs as root
-4. **Optimized Layers**: Combined related commands for efficiency
+3. **Local Package Management**: Created package.json with http-proxy dependency
+4. **Proper Module Resolution**: Packages installed in user context for runtime access
 
 ## 🎯 NEXT: Render Container Deployment
 

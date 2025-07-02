@@ -25,9 +25,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
 
-# Install global packages as root (resolves permission issues)
-RUN npm install -g http-proxy
-
 # Create workspace directory and set ownership
 RUN mkdir -p /home/coder/project && \
     chown -R coder:coder /home/coder/
@@ -35,6 +32,10 @@ RUN mkdir -p /home/coder/project && \
 # Switch to coder user for all application setup
 USER coder
 WORKDIR /home/coder/project
+
+# Create package.json and install http-proxy locally for health-proxy.js
+RUN echo '{"name":"workshop-proxy","version":"1.0.0","dependencies":{"http-proxy":"^1.18.1"}}' > package.json && \
+    npm install
 
 # Copy starter project files
 COPY --chown=coder:coder starter-projects/ ./
