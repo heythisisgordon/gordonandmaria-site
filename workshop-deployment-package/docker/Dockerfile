@@ -32,19 +32,20 @@ WORKDIR /home/coder/project
 
 # Copy starter project files
 COPY starter-projects/ ./
-COPY config/ /home/coder/.config/
 
 # Set up VS Code settings and extensions directory
 RUN mkdir -p /home/coder/.local/share/code-server/User
 RUN mkdir -p /home/coder/.local/share/code-server/extensions
+RUN mkdir -p /home/coder/project/.vscode
 
 # Copy VS Code configuration
 COPY vscode-config/settings.json /home/coder/.local/share/code-server/User/
 COPY vscode-config/tasks.json /home/coder/project/.vscode/
 
-# Install Cline extension manually (since marketplace might not be available)
-COPY extensions/cline.vsix /tmp/
-RUN code-server --install-extension /tmp/cline.vsix
+# Download and install Cline extension from GitHub releases
+RUN curl -L -o /tmp/cline.vsix https://github.com/cline/cline/releases/download/v3.18.1/cline-3.18.1.vsix \
+    && code-server --install-extension /tmp/cline.vsix \
+    && rm /tmp/cline.vsix
 
 # Set up Git configuration
 RUN git config --global user.name "Workshop Demo" \
