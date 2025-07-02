@@ -77,4 +77,4 @@ RUN git config --global user.name "Workshop Demo" \
 EXPOSE 10000
 
 # Start services using startup script (code-server on 8080, health proxy on 10000)
-CMD ["/home/coder/start-services.sh"]
+CMD ["bash", "/home/coder/start-services.sh"]
