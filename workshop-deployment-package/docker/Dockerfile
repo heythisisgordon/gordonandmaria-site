@@ -7,7 +7,7 @@ ENV CODE_SERVER_CONFIG_DIR=/home/coder/.config/code-server
 ENV WORKSHOP_ID=demo-1
 ENV PASSWORD=workshop2025
 
-# Switch to root for installations
+# Switch to root for system installations only
 USER root
 
 # Install system dependencies
@@ -24,17 +24,22 @@ RUN apt-get update && apt-get install -y \
 
 # Install Node.js 18 (required for modern React)
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install http-proxy for health check proxy
-RUN npm install -g http-proxy
-
-# Create workspace directory
+# Create workspace directory and set ownership
 RUN mkdir -p /home/coder/project
+RUN chown -R coder:coder /home/coder/
+
+# Switch to coder user for all application setup
+USER coder
 WORKDIR /home/coder/project
 
+# Install Node.js packages as coder user
+RUN npm install -g http-proxy
+
 # Copy starter project files
-COPY starter-projects/ ./
+COPY --chown=coder:coder starter-projects/ ./
 
 # Set up VS Code settings and extensions directory
 RUN mkdir -p /home/coder/.local/share/code-server/User
@@ -42,8 +47,8 @@ RUN mkdir -p /home/coder/.local/share/code-server/extensions
 RUN mkdir -p /home/coder/project/.vscode
 
 # Copy VS Code configuration
-COPY vscode-config/settings.json /home/coder/.local/share/code-server/User/
-COPY vscode-config/tasks.json /home/coder/project/.vscode/
+COPY --chown=coder:coder vscode-config/settings.json /home/coder/.local/share/code-server/User/
+COPY --chown=coder:coder vscode-config/tasks.json /home/coder/project/.vscode/
 
 # Download and install Cline extension from GitHub releases
 RUN curl -L -o /tmp/cline.vsix https://github.com/cline/cline/releases/download/v3.18.1/cline-3.18.1.vsix \
@@ -51,19 +56,13 @@ RUN curl -L -o /tmp/cline.vsix https://github.com/cline/cline/releases/download/
     && rm /tmp/cline.vsix
 
 # Copy deployment and utility scripts
-COPY scripts/ /home/coder/scripts/
+COPY --chown=coder:coder scripts/ /home/coder/scripts/
 RUN chmod +x /home/coder/scripts/*.sh
 
 # Copy health proxy and startup scripts
-COPY health-proxy.js /home/coder/
-COPY start-services.sh /home/coder/
+COPY --chown=coder:coder health-proxy.js /home/coder/
+COPY --chown=coder:coder start-services.sh /home/coder/
 RUN chmod +x /home/coder/start-services.sh
-
-# Set ownership for coder user
-RUN chown -R coder:coder /home/coder/
-
-# Switch back to coder user
-USER coder
 
 # Set up Git configuration and initialize repository as coder user
 RUN git config --global user.name "Workshop Demo" \
