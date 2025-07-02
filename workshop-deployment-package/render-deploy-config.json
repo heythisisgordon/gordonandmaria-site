@@ -1,0 +1,98 @@
+{
+  "containers": [
+    {
+      "name": "vibe-demo-1",
+      "service_type": "web_service",
+      "repo": "https://github.com/heythisisgordon/workshop-demo",
+      "branch": "main",
+      "runtime": "docker",
+      "dockerfile_path": "docker/Dockerfile",
+      "instance_type": "starter",
+      "environment_variables": {
+        "WORKSHOP_ID": "demo-1",
+        "OPENAI_API_KEY": "sk-proj-[INSERT_UNIQUE_KEY_1]",
+        "GITHUB_REPO_URL": "https://github.com/heythisisgordon/workshop-demo.git",
+        "PORT": "8080",
+        "PASSWORD": "workshop2025"
+      }
+    },
+    {
+      "name": "vibe-demo-2",
+      "service_type": "web_service",
+      "repo": "https://github.com/heythisisgordon/workshop-demo",
+      "branch": "main",
+      "runtime": "docker",
+      "dockerfile_path": "docker/Dockerfile",
+      "instance_type": "starter",
+      "environment_variables": {
+        "WORKSHOP_ID": "demo-2",
+        "OPENAI_API_KEY": "sk-proj-[INSERT_UNIQUE_KEY_2]",
+        "GITHUB_REPO_URL": "https://github.com/heythisisgordon/workshop-demo.git",
+        "PORT": "8080",
+        "PASSWORD": "workshop2025"
+      }
+    },
+    {
+      "name": "vibe-demo-3",
+      "service_type": "web_service",
+      "repo": "https://github.com/heythisisgordon/workshop-demo",
+      "branch": "main",
+      "runtime": "docker",
+      "dockerfile_path": "docker/Dockerfile",
+      "instance_type": "starter",
+      "environment_variables": {
+        "WORKSHOP_ID": "demo-3",
+        "OPENAI_API_KEY": "sk-proj-[INSERT_UNIQUE_KEY_3]",
+        "GITHUB_REPO_URL": "https://github.com/heythisisgordon/workshop-demo.git",
+        "PORT": "8080",
+        "PASSWORD": "workshop2025"
+      }
+    },
+    {
+      "name": "vibe-demo-4",
+      "service_type": "web_service",
+      "repo": "https://github.com/heythisisgordon/workshop-demo",
+      "branch": "main",
+      "runtime": "docker",
+      "dockerfile_path": "docker/Dockerfile",
+      "instance_type": "starter",
+      "environment_variables": {
+        "WORKSHOP_ID": "demo-4",
+        "OPENAI_API_KEY": "sk-proj-[INSERT_UNIQUE_KEY_4]",
+        "GITHUB_REPO_URL": "https://github.com/heythisisgordon/workshop-demo.git",
+        "PORT": "8080",
+        "PASSWORD": "workshop2025"
+      }
+    },
+    {
+      "name": "vibe-demo-5",
+      "service_type": "web_service",
+      "repo": "https://github.com/heythisisgordon/workshop-demo",
+      "branch": "main",
+      "runtime": "docker",
+      "dockerfile_path": "docker/Dockerfile",
+      "instance_type": "starter",
+      "environment_variables": {
+        "WORKSHOP_ID": "demo-5",
+        "OPENAI_API_KEY": "sk-proj-[INSERT_UNIQUE_KEY_5]",
+        "GITHUB_REPO_URL": "https://github.com/heythisisgordon/workshop-demo.git",
+        "PORT": "8080",
+        "PASSWORD": "workshop2025"
+      }
+    }
+  ],
+  "expected_urls": [
+    "https://vibe-demo-1.onrender.com",
+    "https://vibe-demo-2.onrender.com", 
+    "https://vibe-demo-3.onrender.com",
+    "https://vibe-demo-4.onrender.com",
+    "https://vibe-demo-5.onrender.com"
+  ],
+  "github_pages_urls": [
+    "https://heythisisgordon.github.io/workshop-demo/demo-1/",
+    "https://heythisisgordon.github.io/workshop-demo/demo-2/",
+    "https://heythisisgordon.github.io/workshop-demo/demo-3/",
+    "https://heythisisgordon.github.io/workshop-demo/demo-4/",
+    "https://heythisisgordon.github.io/workshop-demo/demo-5/"
+  ]
+}

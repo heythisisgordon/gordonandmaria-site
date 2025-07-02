@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legacy Company Website</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+        
+        .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .nav {
+            background-color: #666;
+            padding: 0;
+        }
+        
+        .nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav li {
+            display: inline-block;
+        }
+        
+        .nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+        }
+        
+        .nav a:hover {
+            background-color: #555;
+        }
+        
+        .content {
+            padding: 30px;
+            line-height: 1.6;
+        }
+        
+        .intro {
+            background-color: #e6f3ff;
+            padding: 20px;
+            border: 1px solid #b3d9ff;
+            margin-bottom: 20px;
+        }
+        
+        .services {
+            margin: 30px 0;
+        }
+        
+        .service-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #003366;
+        }
+        
+        .contact-form {
+            background-color: #fffacd;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .btn {
+            background-color: #003366;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: #002244;
+        }
+        
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TechCorp Solutions</h1>
+            <p>Your Legacy Technology Partner Since 1995</p>
+        </div>
+        
+        <nav class="nav">
+            <ul>
+                <li><a href="#" onclick="showSection('home')">Home</a></li>
+                <li><a href="#" onclick="showSection('about')">About</a></li>
+                <li><a href="#" onclick="showSection('services')">Services</a></li>
+                <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <div class="content">
+            <div id="home" class="section">
+                <div class="intro">
+                    <h2>Welcome to TechCorp Solutions</h2>
+                    <p>We've been providing reliable technology solutions for over 25 years. Our experienced team delivers custom software development, database management, and IT consulting services to businesses of all sizes.</p>
+                </div>
+                
+                <div class="services">
+                    <h3>Our Core Services</h3>
+                    <div class="service-item">
+                        <h4>Custom Software Development</h4>
+                        <p>Build tailored applications that meet your specific business requirements.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>Database Management</h4>
+                        <p>Optimize and maintain your critical business data systems.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>IT Consulting</h4>
+                        <p>Strategic technology guidance to drive your business forward.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="about" class="section hidden">
+                <h2>About TechCorp</h2>
+                <p>Founded in 1995, TechCorp Solutions has grown from a small startup to a trusted technology partner for hundreds of companies. Our mission is to deliver innovative solutions that solve real business problems.</p>
+                <p>Our team of experienced developers, analysts, and consultants work closely with clients to understand their unique challenges and create effective solutions.</p>
+            </div>
+            
+            <div id="services" class="section hidden">
+                <h2>Our Services</h2>
+                <p>We offer a comprehensive range of technology services:</p>
+                <ul>
+                    <li>Web Application Development</li>
+                    <li>Desktop Software Solutions</li>
+                    <li>Database Design and Optimization</li>
+                    <li>System Integration</li>
+                    <li>Technical Support and Maintenance</li>
+                    <li>IT Strategy and Planning</li>
+                </ul>
+            </div>
+            
+            <div id="contact" class="section hidden">
+                <h2>Contact Us</h2>
+                <p>Ready to discuss your project? Get in touch with our team today.</p>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name:</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company:</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Project Description:</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                    <div id="thankYou" class="hidden">
+                        <h3>Thank you for your message!</h3>
+                        <p>We'll get back to you within 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2023 TechCorp Solutions. All rights reserved. | Phone: (555) 123-4567 | Email: info@techcorp.com</p>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionName) {
+            // Hide all sections
+            $('.section').removeClass('show').addClass('hidden');
+            
+            // Show the selected section
+            $('#' + sectionName).removeClass('hidden').addClass('show');
+        }
+        
+        $(document).ready(function() {
+            // Handle form submission
+            $('#contactForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Simple form validation
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var message = $('#message').val();
+                
+                if (name && email && message) {
+                    // Simulate form submission
+                    $('#contactForm').hide();
+                    $('#thankYou').removeClass('hidden').addClass('show');
+                } else {
+                    alert('Please fill in all required fields.');
+                }
+            });
+            
+            // Add some animation effects
+            $('.nav a').hover(
+                function() {
+                    $(this).animate({backgroundColor: '#444'}, 200);
+                },
+                function() {
+                    $(this).animate({backgroundColor: '#666'}, 200);
+                }
+            );
+        });
+    </script>
+</body>
+</html>
