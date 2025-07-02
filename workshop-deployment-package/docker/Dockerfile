@@ -47,11 +47,6 @@ RUN curl -L -o /tmp/cline.vsix https://github.com/cline/cline/releases/download/
     && code-server --install-extension /tmp/cline.vsix \
     && rm /tmp/cline.vsix
 
-# Set up Git configuration
-RUN git config --global user.name "Workshop Demo" \
-    && git config --global user.email "demo@workshop.dev" \
-    && git config --global init.defaultBranch main
-
 # Copy deployment and utility scripts
 COPY scripts/ /home/coder/scripts/
 RUN chmod +x /home/coder/scripts/*.sh
@@ -62,8 +57,11 @@ RUN chown -R coder:coder /home/coder/
 # Switch back to coder user
 USER coder
 
-# Initialize git repository
-RUN git init . \
+# Set up Git configuration and initialize repository as coder user
+RUN git config --global user.name "Workshop Demo" \
+    && git config --global user.email "demo@workshop.dev" \
+    && git config --global init.defaultBranch main \
+    && git init . \
     && git add . \
     && git commit -m "Initial workshop starter project"
 
