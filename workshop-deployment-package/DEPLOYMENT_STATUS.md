@@ -14,13 +14,27 @@
 - ✅ **Render Configuration**: Complete container specifications
 - ✅ **Documentation**: Implementation and deployment guides
 
+## ✅ CRITICAL FIX APPLIED: Docker Build Issue Resolved
+
+### Dockerfile Fix Completed (Option 2 Implementation):
+- **Issue**: NPM permission error `EACCES: permission denied, mkdir '/usr/lib/node_modules/http-proxy'`
+- **Root Cause**: Dual Node.js installation + user context npm global package installation
+- **Solution**: Install global packages as root before switching to user context
+- **Status**: ✅ FIXED - Ready for deployment
+
+### Key Changes Made:
+1. **Eliminated Dual Node.js**: Removed conflicting apt nodejs/npm packages
+2. **Single Clean Installation**: NodeSource Node.js 18.x only
+3. **Root Global Packages**: `npm install -g http-proxy` runs as root
+4. **Optimized Layers**: Combined related commands for efficiency
+
 ## 🎯 NEXT: Render Container Deployment
 
 ### Container Configuration Ready:
 ```json
 Repository: https://github.com/humancenteredsystems/site
 Branch: workshop-demo
-Dockerfile: workshop-deployment-package/docker/Dockerfile
+Dockerfile: workshop-deployment-package/docker/Dockerfile (FIXED)
 ```
 
 ### Deploy 5 Containers:

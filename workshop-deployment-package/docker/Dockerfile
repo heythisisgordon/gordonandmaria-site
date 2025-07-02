@@ -10,37 +10,31 @@ ENV PASSWORD=workshop2025
 # Switch to root for system installations only
 USER root
 
-# Install system dependencies
+# Install system dependencies (excluding conflicting nodejs/npm)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     wget \
-    nodejs \
-    npm \
     python3 \
     python3-pip \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js 18 (required for modern React)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs \
-    && rm -rf /var/lib/apt/lists/*
+# Install Node.js 18 from NodeSource (single, clean installation)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install global packages as root (resolves permission issues)
+RUN npm install -g http-proxy
 
 # Create workspace directory and set ownership
-RUN mkdir -p /home/coder/project
-RUN chown -R coder:coder /home/coder/
+RUN mkdir -p /home/coder/project && \
+    chown -R coder:coder /home/coder/
 
 # Switch to coder user for all application setup
 USER coder
 WORKDIR /home/coder/project
-
-# Configure npm to use user directory for global packages
-RUN npm config set prefix '/home/coder/.npm-global'
-ENV PATH="/home/coder/.npm-global/bin:$PATH"
-
-# Install Node.js packages as coder user
-RUN npm install -g http-proxy
 
 # Copy starter project files
 COPY --chown=coder:coder starter-projects/ ./
