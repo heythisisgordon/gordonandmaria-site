@@ -26,6 +26,9 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
+# Install http-proxy for health check proxy
+RUN npm install -g http-proxy
+
 # Create workspace directory
 RUN mkdir -p /home/coder/project
 WORKDIR /home/coder/project
@@ -51,6 +54,11 @@ RUN curl -L -o /tmp/cline.vsix https://github.com/cline/cline/releases/download/
 COPY scripts/ /home/coder/scripts/
 RUN chmod +x /home/coder/scripts/*.sh
 
+# Copy health proxy and startup scripts
+COPY health-proxy.js /home/coder/
+COPY start-services.sh /home/coder/
+RUN chmod +x /home/coder/start-services.sh
+
 # Set ownership for coder user
 RUN chown -R coder:coder /home/coder/
 
@@ -65,12 +73,8 @@ RUN git config --global user.name "Workshop Demo" \
     && git add . \
     && git commit -m "Initial workshop starter project"
 
-# Expose code-server port
-EXPOSE 8080
+# Expose health proxy port (Render expects 10000)
+EXPOSE 10000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/ || exit 1
-
-# Start code-server
-CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "password", "--disable-telemetry", "/home/coder/project"]
+# Start services using startup script (code-server on 8080, health proxy on 10000)
+CMD ["/home/coder/start-services.sh"]
