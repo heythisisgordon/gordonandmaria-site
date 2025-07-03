@@ -267,14 +267,14 @@ export default function VibeCoding101() {
             </p>
           </div>
 
-          <div className="max-w-2xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="card bg-base-100 shadow-lg border border-base-300">
               <div className="card-body text-center p-8">
                 <div className="text-5xl mb-6">📚</div>
                 <h3 className="card-title justify-center text-2xl mb-4">
-                  Vibe Coding 101 Quick Reference
+                  Quick Reference Guide
                 </h3>
-                <p className="text-lg mb-6 max-w-lg mx-auto">
+                <p className="text-lg mb-6">
                   Complete setup guide covering OpenRouter account creation, VS Code installation, 
                   Cline configuration, and the vibe coding philosophy. Your essential companion 
                   for the workshop.
@@ -292,6 +292,35 @@ export default function VibeCoding101() {
                     className="btn btn-primary btn-lg"
                   >
                     View Cheat Sheet
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="card bg-base-100 shadow-lg border border-base-300">
+              <div className="card-body text-center p-8">
+                <div className="text-5xl mb-6">🎯</div>
+                <h3 className="card-title justify-center text-2xl mb-4">
+                  Workshop Slides
+                </h3>
+                <p className="text-lg mb-6">
+                  Interactive presentation covering the vibe coding mindset, core principles, 
+                  and practical examples. Perfect for understanding the philosophy behind 
+                  AI-powered development.
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  <div className="badge badge-info">Interactive</div>
+                  <div className="badge badge-warning">Mindset</div>
+                  <div className="badge badge-success">Examples</div>
+                </div>
+                <div className="card-actions justify-center">
+                  <a 
+                    href="/vibe_coding_slides.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary btn-lg"
+                  >
+                    View Slides
                   </a>
                 </div>
               </div>
