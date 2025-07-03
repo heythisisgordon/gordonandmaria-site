@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding 101 - Quick Reference</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.4;
+            color: #0f172a;
+            background: #f1f5f9;
+            padding: 24px;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: white;
+            padding: 48px 40px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
+        }
+
+        .accent-bar {
+            height: 6px;
+            background: linear-gradient(90deg, #f59e0b, #f97316, #ef4444, #ec4899);
+            margin: 0;
+        }
+
+        .content {
+            padding: 0;
+        }
+
+        .section {
+            padding: 40px;
+            position: relative;
+        }
+
+        .section:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-number {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .workflow-visual {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .workflow-step {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .workflow-step:hover {
+            border-color: #f59e0b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .workflow-step::after {
+            content: '→';
+            position: absolute;
+            right: -16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #94a3b8;
+            font-weight: 700;
+            z-index: 1;
+        }
+
+        .workflow-step:last-child::after {
+            display: none;
+        }
+
+        .step-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .step-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .step-description {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin: 24px 0;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 28px;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #f97316);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #0f172a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-content {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .card-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #475569;
+        }
+
+        .card-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #f59e0b;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #fef3c7, #fed7aa);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #92400e;
+        }
+
+        .philosophy-section {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 32px;
+            margin: 32px 0;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .philosophy-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 0v40M0 20h40'/%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+
+        .philosophy-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .philosophy-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: center;
+            color: white;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .philosophy-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .philosophy-item strong {
+            color: #fbbf24;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .config-notice {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .approach-notice {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .mode-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .mode-card:hover {
+            border-color: #f59e0b;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .mode-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .install-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .install-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .install-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #f97316);
+        }
+
+        .install-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #f59e0b;
+        }
+
+        .install-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .install-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .install-desc {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .quote-section {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 40px;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 0v40M0 20h40'/%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 18px;
+            line-height: 1.7;
+            color: white;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quote-author {
+            font-size: 15px;
+            margin-top: 16px;
+            color: #cbd5e1;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 32px 40px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-main {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .footer-contact {
+            margin-bottom: 12px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .footer-contact a {
+            color: #f59e0b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 12px;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 12px;
+            }
+            
+            .header {
+                padding: 32px 24px;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .section {
+                padding: 32px 24px;
+            }
+            
+            .workflow-visual {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .workflow-step::after {
+                content: '↓';
+                right: auto;
+                bottom: -12px;
+                top: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .mode-grid, .install-showcase {
+                grid-template-columns: 1fr;
+            }
+            
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer, .quote-section {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>Vibe Coding 101</h1>
+                <div class="subtitle">AI-Powered Development in 10 Minutes</div>
+            </div>
+        </div>
+        <div class="accent-bar"></div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-title">
+                    <div class="section-number">1</div>
+                    Setup OpenRouter Account
+                </div>
+                
+                <div class="workflow-visual">
+                    <div class="workflow-step">
+                        <span class="step-icon">🌐</span>
+                        <div class="step-label">Visit OpenRouter</div>
+                        <div class="step-description">openrouter.ai</div>
+                    </div>
+                    <div class="workflow-step">
+                        <span class="step-icon">💳</span>
+                        <div class="step-label">Add $20 Credit</div>
+                        <div class="step-description">Fuel your AI coding</div>
+                    </div>
+                    <div class="workflow-step">
+                        <span class="step-icon">🔑</span>
+                        <div class="step-label">Generate API Key</div>
+                        <div class="step-description">Save it securely</div>
+                    </div>
+                </div>
+
+                <p class="card-content">Sign up at <a href="https://openrouter.ai" target="_blank" style="color: #f59e0b; text-decoration: none; font-weight: 500;">openrouter.ai</a>, add <span class="highlight">$20</span> to your account, and generate an API key. Save the key securely.</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <div class="section-number">2</div>
+                    Install Development Tools
+                </div>
+                
+                <div class="install-showcase">
+                    <div class="install-card">
+                        <span class="install-icon">💻</span>
+                        <div class="install-title">Visual Studio Code</div>
+                        <div class="install-desc">Download from <span class="highlight">code.visualstudio.com</span><br><strong>Note:</strong> VS Code, not Visual Studio</div>
+                    </div>
+                    <div class="install-card">
+                        <span class="install-icon">🤖</span>
+                        <div class="install-title">Cline Extension</div>
+                        <div class="install-desc">Search "Cline" in Extensions<br><strong>Shortcut:</strong> Ctrl + Alt + B</div>
+                    </div>
+                </div>
+
+                <div class="info-cards">
+                    <div class="info-card">
+                        <div class="card-title">💡 Why VS Code?</div>
+                        <div class="card-content">The most popular code editor with excellent AI integration capabilities.</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-title">🚀 Why Cline?</div>
+                        <div class="card-content">Cline lets your LLM directly read, write, and execute your code. You just tell Cline what to do.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <div class="section-number">3</div>
+                    Configure Cline Settings
+                </div>
+                
+                <div class="config-notice">
+                    ✅ Enable "Use different models for Plan and Act mode"
+                </div>
+
+                <div class="mode-grid">
+                    <div class="mode-card">
+                        <h3>🎯 Plan Mode</h3>
+                        <ul class="card-list">
+                            <li>Provider: <strong>OpenRouter</strong></li>
+                            <li>Model: <strong>claude-sonnet-4</strong></li>
+                            <li>✅ Enable extended thinking</li>
+                            <li>Budget: <strong>~4k tokens</strong> (halfway)</li>
+                        </ul>
+                    </div>
+                    <div class="mode-card">
+                        <h3>⚡ Act Mode</h3>
+                        <ul class="card-list">
+                            <li>Provider: <strong>OpenRouter</strong></li>
+                            <li>Model: <strong>claude-sonnet-4</strong></li>
+                            <li>❌ Disable extended thinking</li>
+                            <li>Budget: <strong>Default</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-cards" style="margin-top: 24px;">
+                    <div class="info-card">
+                        <div class="card-title">🎵 Why Claude Sonnet 4?</div>
+                        <div class="card-content">Claude Sonnet 4 is the best model for vibe coding. Other models may be cheaper or faster, but may not perform as well and can ruin the 'vibe' of seamless, iterative development.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <div class="section-number">4</div>
+                    Start Vibe Coding
+                </div>
+                
+                <div class="approach-notice">
+                    Use a structured approach to vibe coding that mirrors human-centered design processes.
+                </div>
+                
+                <div class="philosophy-section">
+                    <div class="philosophy-content">
+                        <div class="philosophy-title">🎵 The Vibe Coding Philosophy</div>
+                        <div class="philosophy-grid">
+                            <div class="philosophy-item">
+                                <strong>You're the Architect</strong>
+                                Structure work in Plan mode, let LLM handle everything in Act mode. Never type code yourself.
+                            </div>
+                            <div class="philosophy-item">
+                                <strong>Continuous Development Loop</strong>
+                                Continuous Plan → Act → Assess development loop mirrors the human-centered design process.
+                            </div>
+                            <div class="philosophy-item">
+                                <strong>Full Dev Team</strong>
+                                Let the LLM form a complete cast of characters. You manage and direct the team.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mode-grid">
+                    <div class="mode-card">
+                        <h3>🧠 Plan Mode</h3>
+                        <ul class="card-list">
+                            <li>LLM <strong>reads</strong> all your code</li>
+                            <li>Cannot edit files (usually)</li>
+                            <li>Has extended thinking enabled</li>
+                            <li>End prompts with "Plan how to..."</li>
+                        </ul>
+                    </div>
+                    <div class="mode-card">
+                        <h3>🚀 Act Mode</h3>
+                        <ul class="card-list">
+                            <li>Receives the <strong>plan</strong> + context</li>
+                            <li>Can edit and create files</li>
+                            <li>Executes the planned actions</li>
+                            <li>Faster, focused execution</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <div class="section-number">5</div>
+                    Use MCP Servers for Even More Structured Development
+                </div>
+                
+                <div class="mode-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="mode-card">
+                        <h3>📋 Manage Issues</h3>
+                        <ul class="card-list">
+                            <li>LLM generates and tests <strong>initial code</strong></li>
+                            <li>Identifies areas for <strong>improvement</strong></li>
+                            <li>Automatically creates GitHub <strong>Issues</strong></li>
+                            <li>Documents enhancement <strong>requirements</strong></li>
+                        </ul>
+                    </div>
+                    <div class="mode-card">
+                        <h3>🎯 Prioritize Tasks</h3>
+                        <ul class="card-list">
+                            <li>GitHub MCP server <strong>analyzes</strong> all issues</li>
+                            <li>Ranks by importance and <strong>impact</strong></li>
+                            <li>Considers dependencies and <strong>complexity</strong></li>
+                            <li>Selects highest priority <strong>next task</strong></li>
+                        </ul>
+                    </div>
+                    <div class="mode-card">
+                        <h3>🔄 Iterate</h3>
+                        <ul class="card-list">
+                            <li>Address the selected <strong>priority issue</strong></li>
+                            <li>Implement, test, and <strong>validate</strong> solution</li>
+                            <li>Close completed issue and <strong>update repo</strong></li>
+                            <li>Move to next highest <strong>priority task</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-cards">
+                    <div class="info-card">
+                        <div class="card-title">🔧 What are MCP Servers?</div>
+                        <div class="card-content">
+                            <span class="highlight">Model Context Protocol (MCP)</span> servers extend your LLM's capabilities by connecting to external tools and services. They act as bridges between Claude and your development workflow.
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-title">🎯 Structured Development Benefits</div>
+                        <div class="card-content">
+                            This approach creates a <span class="highlight">self-improving development loop</span> where your AI assistant continuously refines and enhances your codebase through systematic issue tracking.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quote-section">
+            <div class="quote">
+                "[F]or architects and engineers who are really good at what they do and enjoy their work, there is always a strong echo of the enjoyment they got as they designed and built things in their childhood."
+                <div class="quote-author">— Stuart Brown, <em>Play: How it Shapes the Brain, Opens the Imagination, and Invigorates the Soul</em></div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-main">
+                Human-Centered Systems LLC • Vibe Coding 101 Quick Reference
+            </div>
+            <div class="footer-contact">
+                <a href="mailto:info@humancenteredsystems.io">info@humancenteredsystems.io</a> • 
+                <a href="https://humancenteredsystems.io/vibecoding101" target="_blank">humancenteredsystems.io/vibecoding101</a>
+            </div>
+            <div class="footer-copyright">
+                © 2025 Human-Centered Systems LLC. This work is licensed under Creative Commons Attribution 4.0 International.<br>
+                You are free to share and adapt this material with proper attribution.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
