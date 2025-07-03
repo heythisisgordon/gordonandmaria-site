@@ -12,6 +12,7 @@ import InfoSession from './pages/InfoSession'
 import StudentShowcase from './pages/StudentShowcase'
 import VibeCoding101 from './pages/VibeCoding101'
 import VibeCoding101Register from './pages/VibeCoding101Register'
+import Test123 from './pages/Test123'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/research" element={<Research />} />
           <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/test123" element={<Test123 />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/info-session" element={<InfoSession />} />

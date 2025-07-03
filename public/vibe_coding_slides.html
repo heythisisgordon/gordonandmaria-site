@@ -327,6 +327,19 @@
             transform: translateY(0);
         }
 
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(100, 255, 218, 0.1);
+        }
+
+        .nav-btn:disabled:hover {
+            transform: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(100, 255, 218, 0.1);
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .slide {
@@ -370,7 +383,7 @@
     <div class="slideshow-container">
         <!-- Slide 1: About Me & Why Vibe Coding -->
         <div class="slide active">
-            <div class="slide-counter">1 / 5</div>
+            <div class="slide-counter" id="slide-counter">1 / 4</div>
             
             <div class="hero-section">
                 <div class="subtitle">Workshop</div>
@@ -401,7 +414,7 @@
 
         <!-- Slide 2: Use Cases -->
         <div class="slide">
-            <div class="slide-counter">2 / 5</div>
+            <div class="slide-counter">2 / 4</div>
             
             <h1>Where You'll Use This</h1>
             <h2>Tasks Developers Hate (But LLMs Love)</h2>
@@ -457,7 +470,7 @@
 
         <!-- Slide 3: The Vibe Coding Mindset -->
         <div class="slide">
-            <div class="slide-counter">3 / 5</div>
+            <div class="slide-counter">3 / 4</div>
             
             <h1>The Vibe Coding Mindset</h1>
             
@@ -606,15 +619,53 @@
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.querySelector('.nav-btn:first-child');
+        const nextBtn = document.querySelector('.nav-btn:last-child');
+
+        function updateSlideCounter() {
+            const counter = document.getElementById('slide-counter');
+            if (counter) {
+                counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            }
+        }
+
+        function updateNavigationButtons() {
+            // Disable Previous button on first slide
+            prevBtn.disabled = currentSlide === 0;
+            
+            // Disable Next button on last slide
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+        }
 
         function showSlide(n) {
+            // Remove active class from current slide
             slides[currentSlide].classList.remove('active');
-            currentSlide = (n + slides.length) % slides.length;
+            
+            // Update current slide with bounds checking
+            if (n < 0) {
+                currentSlide = 0;
+            } else if (n >= totalSlides) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = n;
+            }
+            
+            // Add active class to new slide
             slides[currentSlide].classList.add('active');
+            
+            // Update UI
+            updateSlideCounter();
+            updateNavigationButtons();
         }
 
         function changeSlide(direction) {
-            showSlide(currentSlide + direction);
+            const newSlide = currentSlide + direction;
+            
+            // Only change if within bounds
+            if (newSlide >= 0 && newSlide < totalSlides) {
+                showSlide(newSlide);
+            }
         }
 
         // Keyboard navigation

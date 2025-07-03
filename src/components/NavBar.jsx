@@ -12,6 +12,7 @@ export default function NavBar() {
     { name: 'About', href: '/about' },
     { name: 'Research', href: '/research' },
     { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Test 123', href: '/test123' },
     { name: 'Team', href: '/resume' },
     { name: 'Contact', href: '/contact' },
   ]
