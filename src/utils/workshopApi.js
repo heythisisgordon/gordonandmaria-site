@@ -138,6 +138,58 @@ export async function triggerHealthCheck() {
 }
 
 /**
+ * Get workshop gallery status with demo availability
+ * @returns {Promise<Object>} Gallery status with demo information
+ */
+export async function getGalleryStatus() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/workshop/galleries/status`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Gallery status check error:', error)
+    throw error
+  }
+}
+
+/**
+ * Get featured resurrection demos
+ * @returns {Promise<Object>} Featured resurrection demonstrations
+ */
+export async function getFeaturedResurrections() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/resurrections/featured`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Featured resurrections fetch error:', error)
+    throw error
+  }
+}
+
+/**
  * Health check for workshop API
  * @returns {Promise<Object>} API health status
  */

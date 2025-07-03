@@ -12,7 +12,7 @@ export default function StudentShowcase() {
   // Mock data - in production this would come from a backend
   const mockStudentData = {
     name: 'Sample Student',
-    description: 'This is a sample project showcasing basic programming concepts.',
+    description: 'This is a sample project showcasing basic programming concepts and nostalgic language resurrections.',
     submissionDate: '2025-06-26',
     files: [
       {
@@ -52,6 +52,194 @@ h1 {
     text-align: center;
 }`,
         language: 'css'
+      }
+    ],
+    resurrections: [
+      {
+        title: 'QBasic Starfield Animation',
+        description: '1990s graphics code running at 60fps in modern browsers',
+        sourceLanguage: 'QBasic',
+        targetTech: 'HTML5 Canvas + JavaScript',
+        nostalgicAppeal: 'high',
+        aiGenerated: true,
+        demoUrl: 'https://vibe-container-1-demos.onrender.com/qbasic-starfield.html',
+        before: `' QBasic Starfield Program
+SCREEN 13
+DIM stars(100, 2)
+
+' Initialize stars
+FOR i = 1 TO 100
+    stars(i, 0) = RND * 320
+    stars(i, 1) = RND * 200
+NEXT i
+
+DO
+    CLS
+    FOR i = 1 TO 100
+        PSET (stars(i, 0), stars(i, 1)), 15
+        stars(i, 0) = stars(i, 0) + 2
+        IF stars(i, 0) > 320 THEN
+            stars(i, 0) = 0
+            stars(i, 1) = RND * 200
+        END IF
+    NEXT i
+    SLEEP 1
+LOOP UNTIL INKEY$ <> ""`,
+        after: `// Modern JavaScript equivalent
+class StarfieldAnimation {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.stars = [];
+    this.initStars();
+    this.animate();
+  }
+
+  initStars() {
+    for (let i = 0; i < 100; i++) {
+      this.stars.push({
+        x: Math.random() * this.canvas.width,
+        y: Math.random() * this.canvas.height,
+        speed: Math.random() * 3 + 1
+      });
+    }
+  }
+
+  animate() {
+    this.ctx.fillStyle = 'black';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    this.stars.forEach(star => {
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillRect(star.x, star.y, 2, 2);
+      
+      star.x += star.speed;
+      if (star.x > this.canvas.width) {
+        star.x = 0;
+        star.y = Math.random() * this.canvas.height;
+      }
+    });
+    
+    requestAnimationFrame(() => this.animate());
+  }
+}`
+      },
+      {
+        title: 'Pascal Fire Effect',
+        description: 'Classic demo scene fire animation brought to HTML5 Canvas',
+        sourceLanguage: 'Pascal',
+        targetTech: 'HTML5 Canvas + JavaScript',
+        nostalgicAppeal: 'high',
+        aiGenerated: true,
+        demoUrl: 'https://vibe-container-2-demos.onrender.com/pascal-fire.html',
+        before: `{ Pascal Fire Effect }
+program FireEffect;
+uses crt, dos;
+
+var
+  Fire: array[0..199, 0..319] of byte;
+  x, y: integer;
+
+procedure InitFire;
+begin
+  for x := 0 to 319 do
+    Fire[199, x] := random(256);
+end;
+
+procedure UpdateFire;
+begin
+  for y := 0 to 198 do
+    for x := 0 to 319 do
+      Fire[y, x] := (Fire[y+1, x] + 
+                     Fire[y+1, (x-1) and 319] + 
+                     Fire[y+1, (x+1) and 319]) div 3;
+end;
+
+begin
+  InitGraph;
+  repeat
+    InitFire;
+    UpdateFire;
+    DrawFire;
+  until keypressed;
+end.`,
+        after: `// Modern JavaScript Fire Effect
+class FireEffect {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.width = canvas.width;
+    this.height = canvas.height;
+    this.fire = new Array(this.height);
+    
+    for (let i = 0; i < this.height; i++) {
+      this.fire[i] = new Array(this.width).fill(0);
+    }
+    
+    this.palette = this.createFirePalette();
+    this.animate();
+  }
+
+  createFirePalette() {
+    const palette = [];
+    for (let i = 0; i < 256; i++) {
+      const r = Math.min(255, i * 3);
+      const g = Math.min(255, Math.max(0, i * 3 - 128));
+      const b = Math.max(0, i - 192);
+      palette[i] = \`rgb(\${r},\${g},\${b})\`;
+    }
+    return palette;
+  }
+
+  updateFire() {
+    // Initialize bottom row with random values
+    for (let x = 0; x < this.width; x++) {
+      this.fire[this.height - 1][x] = Math.floor(Math.random() * 256);
+    }
+    
+    // Update fire effect
+    for (let y = 0; y < this.height - 1; y++) {
+      for (let x = 0; x < this.width; x++) {
+        const left = (x - 1 + this.width) % this.width;
+        const right = (x + 1) % this.width;
+        
+        this.fire[y][x] = Math.floor(
+          (this.fire[y + 1][x] + 
+           this.fire[y + 1][left] + 
+           this.fire[y + 1][right]) / 3
+        );
+      }
+    }
+  }
+
+  render() {
+    const imageData = this.ctx.createImageData(this.width, this.height);
+    
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        const intensity = this.fire[y][x];
+        const index = (y * this.width + x) * 4;
+        
+        const r = Math.min(255, intensity * 3);
+        const g = Math.min(255, Math.max(0, intensity * 3 - 128));
+        const b = Math.max(0, intensity - 192);
+        
+        imageData.data[index] = r;     // Red
+        imageData.data[index + 1] = g; // Green
+        imageData.data[index + 2] = b; // Blue
+        imageData.data[index + 3] = 255; // Alpha
+      }
+    }
+    
+    this.ctx.putImageData(imageData, 0, 0);
+  }
+
+  animate() {
+    this.updateFire();
+    this.render();
+    requestAnimationFrame(() => this.animate());
+  }
+}`
       }
     ]
   }
@@ -192,6 +380,112 @@ h1 {
             </div>
           ))}
         </div>
+
+        {/* Resurrect-a-Dead-Language Showcase */}
+        {student.resurrections && student.resurrections.length > 0 && (
+          <div className="mt-8">
+            <h2 className="text-3xl font-bold text-center mb-8">
+              🎮 Nostalgic Programming Resurrections
+            </h2>
+            <p className="text-center text-base-content/70 mb-8 max-w-2xl mx-auto">
+              Dead languages brought back to life with AI-assisted transpilation
+            </p>
+
+            <div className="space-y-8">
+              {student.resurrections.map((resurrection, index) => (
+                <div key={index} className="card bg-gradient-to-br from-secondary to-accent text-white shadow-2xl">
+                  <div className="card-body">
+                    {/* Header */}
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-bold mb-2">
+                        <span className="text-3xl mr-2">
+                          {resurrection.sourceLanguage === 'QBasic' ? '💾' :
+                           resurrection.sourceLanguage === 'Pascal' ? '🔥' :
+                           resurrection.sourceLanguage === 'Flash' ? '⚡' : '💻'}
+                        </span>
+                        {resurrection.title}
+                      </h3>
+                      <p className="text-lg opacity-90 mb-4">{resurrection.description}</p>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        <div className="badge badge-lg bg-white bg-opacity-20 border-white border-opacity-30">
+                          {resurrection.sourceLanguage} → {resurrection.targetTech}
+                        </div>
+                        {resurrection.aiGenerated && (
+                          <div className="badge badge-lg bg-white bg-opacity-20 border-white border-opacity-30">
+                            AI-Generated Transpiler
+                          </div>
+                        )}
+                        <div className="badge badge-lg bg-white bg-opacity-20 border-white border-opacity-30">
+                          {resurrection.nostalgicAppeal === 'high' ? 'High Nostalgia' : 'Classic Appeal'}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Before/After Code Comparison */}
+                    <div className="grid lg:grid-cols-2 gap-6">
+                      {/* Before (Original) */}
+                      <div className="card bg-base-100 text-base-content shadow-lg">
+                        <div className="card-body">
+                          <h4 className="card-title text-lg mb-4">
+                            <span className="text-xl mr-2">📜</span>
+                            Original {resurrection.sourceLanguage}
+                          </h4>
+                          <div className="mockup-code">
+                            <pre className="px-4 py-2 text-sm">
+                              <code>
+                                {resurrection.before}
+                              </code>
+                            </pre>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* After (Modern) */}
+                      <div className="card bg-base-100 text-base-content shadow-lg">
+                        <div className="card-body">
+                          <h4 className="card-title text-lg mb-4">
+                            <span className="text-xl mr-2">⚡</span>
+                            Modern JavaScript
+                          </h4>
+                          <div className="mockup-code">
+                            <pre className="px-4 py-2 text-sm">
+                              <code className="language-javascript">
+                                {resurrection.after}
+                              </code>
+                            </pre>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Demo Link */}
+                    <div className="text-center mt-6">
+                      <a 
+                        href={resurrection.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-outline text-white border-white border-opacity-50 hover:bg-white hover:text-primary"
+                      >
+                        🚀 View Live Demo
+                      </a>
+                    </div>
+
+                    {/* Technical Achievement */}
+                    <div className="mt-6 p-4 bg-white bg-opacity-10 rounded-lg">
+                      <h5 className="font-bold mb-2">Technical Achievement:</h5>
+                      <p className="text-sm opacity-90">
+                        This {resurrection.sourceLanguage} program from the {resurrection.sourceLanguage === 'QBasic' ? '1990s' : '1980s-1990s'} 
+                        has been successfully transpiled to modern JavaScript using AI-assisted code transformation. 
+                        The original logic and visual effects are preserved while leveraging modern browser capabilities 
+                        like HTML5 Canvas and requestAnimationFrame for smooth 60fps performance.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Actions */}
         <div className="card bg-base-100 shadow-lg mt-8">

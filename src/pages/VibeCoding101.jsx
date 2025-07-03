@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { getContainerStatus } from '../utils/workshopApi'
+import { getContainerStatus, getGalleryStatus, getFeaturedResurrections } from '../utils/workshopApi'
 
 export default function VibeCoding101() {
   const [selectedContainer, setSelectedContainer] = useState(null)
@@ -11,6 +11,9 @@ export default function VibeCoding101() {
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState(null)
   const [fetchError, setFetchError] = useState(null)
+  const [galleryStatus, setGalleryStatus] = useState(null)
+  const [featuredResurrections, setFeaturedResurrections] = useState([])
+  const [galleryLoading, setGalleryLoading] = useState(false)
 
   // Fetch container status from API
   const fetchContainerStatus = async () => {
@@ -53,9 +56,28 @@ export default function VibeCoding101() {
     }
   }
 
+  // Fetch gallery status and featured resurrections
+  const fetchGalleryData = async () => {
+    try {
+      setGalleryLoading(true)
+      const [galleryResponse, resurrectionsResponse] = await Promise.all([
+        getGalleryStatus(),
+        getFeaturedResurrections()
+      ])
+      
+      setGalleryStatus(galleryResponse)
+      setFeaturedResurrections(resurrectionsResponse.featured || [])
+    } catch (err) {
+      console.error('Failed to fetch gallery data:', err)
+    } finally {
+      setGalleryLoading(false)
+    }
+  }
+
   // Initial load and periodic refresh
   useEffect(() => {
     fetchContainerStatus()
+    fetchGalleryData()
     
     // Refresh every 30 seconds
     const interval = setInterval(fetchContainerStatus, 30000)
@@ -230,6 +252,142 @@ export default function VibeCoding101() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Resurrect-a-Dead-Language Showcase */}
+      <section className="py-20 bg-gradient-to-br from-secondary to-accent text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              🎮 Resurrect-a-Dead-Language
+            </h2>
+            <p className="text-xl md:text-2xl mb-8 max-w-4xl mx-auto">
+              Transform nostalgic programming languages into modern browser experiences. 
+              Watch AI bring QBasic, Pascal, and Flash back to life in real-time!
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
+              <div className="badge badge-lg bg-white bg-opacity-20 text-white border-white border-opacity-30">
+                QBasic Starfield
+              </div>
+              <div className="badge badge-lg bg-white bg-opacity-20 text-white border-white border-opacity-30">
+                Pascal Fire Effect
+              </div>
+              <div className="badge badge-lg bg-white bg-opacity-20 text-white border-white border-opacity-30">
+                Flash Animation
+              </div>
+              <div className="badge badge-lg bg-white bg-opacity-20 text-white border-white border-opacity-30">
+                AI-Generated Transpilers
+              </div>
+            </div>
+          </div>
+
+          {/* Featured Resurrections */}
+          {!galleryLoading && featuredResurrections.length > 0 && (
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+              {featuredResurrections.map((resurrection, index) => (
+                <div key={index} className="card bg-base-100 text-base-content shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <div className="card-body">
+                    <h3 className="card-title text-2xl mb-4">
+                      <span className="text-3xl mr-2">
+                        {resurrection.language === 'QBasic' ? '💾' :
+                         resurrection.language === 'Pascal' ? '🔥' :
+                         resurrection.language === 'Flash' ? '⚡' : '💻'}
+                      </span>
+                      {resurrection.language}
+                    </h3>
+                    <h4 className="text-xl font-bold mb-2">{resurrection.title}</h4>
+                    <p className="text-base-content opacity-80 mb-4">
+                      {resurrection.description}
+                    </p>
+                    <div className="flex gap-2 mb-4">
+                      <div className="badge badge-primary">
+                        {resurrection.nostalgicAppeal === 'high' ? 'High Nostalgia' : 'Classic Appeal'}
+                      </div>
+                      <div className="badge badge-ghost">Live Demo</div>
+                    </div>
+                    <div className="card-actions justify-end">
+                      <a 
+                        href={resurrection.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-primary btn-sm"
+                      >
+                        View Demo
+                      </a>
+                      <a 
+                        href={resurrection.galleryUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-outline btn-sm"
+                      >
+                        Full Gallery
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Gallery Status Summary */}
+          {galleryStatus && (
+            <div className="text-center mb-8">
+              <div className="stats stats-vertical lg:stats-horizontal shadow bg-base-100 text-base-content">
+                <div className="stat">
+                  <div className="stat-title">Active Galleries</div>
+                  <div className="stat-value text-primary">
+                    {galleryStatus.containers?.filter(c => c.status === 'active').length || 0}
+                  </div>
+                  <div className="stat-desc">Demo showcase sites</div>
+                </div>
+                <div className="stat">
+                  <div className="stat-title">Total Resurrections</div>
+                  <div className="stat-value text-secondary">
+                    {galleryStatus.totalResurrections || 0}
+                  </div>
+                  <div className="stat-desc">Languages brought back to life</div>
+                </div>
+                <div className="stat">
+                  <div className="stat-title">Featured Demo</div>
+                  <div className="stat-value text-accent">
+                    {galleryStatus.featuredDemo?.language || 'QBasic'}
+                  </div>
+                  <div className="stat-desc">{galleryStatus.featuredDemo?.title || 'Starfield Animation'}</div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Gallery Links */}
+          <div className="text-center">
+            <h3 className="text-2xl font-bold mb-6">Live Demo Galleries</h3>
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
+              {[1, 2, 3, 4, 5].map((galleryNum) => (
+                <a
+                  key={galleryNum}
+                  href={`https://vibe-container-${galleryNum}-demos.onrender.com`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-outline text-white border-white border-opacity-50 hover:bg-white hover:text-primary"
+                >
+                  Gallery {galleryNum}
+                </a>
+              ))}
+            </div>
+            <p className="text-lg opacity-90 max-w-3xl mx-auto">
+              See what students create during the workshop! Each gallery showcases nostalgic programming 
+              languages running in modern browsers, demonstrating the power of AI-assisted transpilation.
+            </p>
+          </div>
+
+          {/* Loading State */}
+          {galleryLoading && (
+            <div className="text-center py-8">
+              <span className="loading loading-spinner loading-lg"></span>
+              <p className="mt-4 text-lg">Loading resurrection showcase...</p>
+            </div>
+          )}
         </div>
       </section>
 

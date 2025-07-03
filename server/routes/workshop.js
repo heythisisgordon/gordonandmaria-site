@@ -68,7 +68,8 @@ async function checkContainerHealth(container) {
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
     
-    const response = await fetch(`${container.url}/health`, {
+    // Check root URL instead of /health since these are VS Code containers
+    const response = await fetch(container.url, {
       method: 'GET',
       signal: controller.signal,
       headers: {
@@ -78,7 +79,8 @@ async function checkContainerHealth(container) {
     
     clearTimeout(timeoutId)
     
-    if (response.ok) {
+    // Accept any successful response (2xx) or redirect (3xx) as healthy
+    if (response.status >= 200 && response.status < 400) {
       container.status = container.assignedTo ? 'assigned' : 'available'
       container.lastHealthCheck = new Date().toISOString()
       container.healthCheckError = null
@@ -380,6 +382,100 @@ router.get('/admin/registrations', (req, res) => {
     console.error('Admin registrations fetch error:', error)
     res.status(500).json({
       error: 'Admin fetch failed',
+      message: 'An internal server error occurred. Please try again.'
+    })
+  }
+})
+
+/**
+ * Get workshop galleries status
+ */
+router.get('/galleries/status', async (req, res) => {
+  try {
+    // Map containers to their corresponding demo galleries
+    const galleryStatus = containers.map(container => {
+      const containerId = container.id.replace('vibe-container-', '')
+      return {
+        id: `demo-${containerId}`,
+        containerUrl: container.url,
+        galleryUrl: `https://vibe-container-${containerId}-demos.onrender.com`,
+        demoCount: Math.floor(Math.random() * 5) + 1, // Mock demo count
+        lastActivity: container.lastHealthCheck,
+        status: container.status === 'available' || container.status === 'assigned' ? 'active' : 'idle'
+      }
+    })
+
+    // Find a featured demo (mock data)
+    const featuredDemo = {
+      language: 'QBasic',
+      title: 'Starfield Animation', 
+      description: '1990s graphics code running in modern browser',
+      demoUrl: 'https://vibe-container-1-demos.onrender.com/qbasic-starfield.html',
+      containerId: 'demo-1'
+    }
+
+    res.json({
+      timestamp: new Date().toISOString(),
+      containers: galleryStatus,
+      totalResurrections: galleryStatus.reduce((sum, g) => sum + g.demoCount, 0),
+      featuredDemo: featuredDemo
+    })
+
+  } catch (error) {
+    console.error('Gallery status fetch error:', error)
+    res.status(500).json({
+      error: 'Gallery status fetch failed',
+      message: 'An internal server error occurred. Please try again.'
+    })
+  }
+})
+
+/**
+ * Get featured resurrection demos
+ */
+router.get('/resurrections/featured', (req, res) => {
+  try {
+    // Mock featured resurrections data
+    const featuredResurrections = [
+      {
+        language: 'QBasic',
+        title: 'Starfield Animation',
+        description: '1990s graphics code running at 60fps in modern browsers',
+        demoUrl: 'https://vibe-container-1-demos.onrender.com/qbasic-starfield.html',
+        galleryUrl: 'https://vibe-container-1-demos.onrender.com',
+        createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
+        nostalgicAppeal: 'high'
+      },
+      {
+        language: 'Pascal',
+        title: 'Fire Effect Demo',
+        description: 'Classic demo scene fire animation brought to HTML5 Canvas',
+        demoUrl: 'https://vibe-container-2-demos.onrender.com/pascal-fire.html',
+        galleryUrl: 'https://vibe-container-2-demos.onrender.com',
+        createdAt: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(), // 2 days ago
+        nostalgicAppeal: 'high'
+      },
+      {
+        language: 'Flash',
+        title: 'Interactive Animation',
+        description: 'ActionScript animations running via modern Ruffle emulation',
+        demoUrl: 'https://vibe-container-3-demos.onrender.com/flash-animation.html',
+        galleryUrl: 'https://vibe-container-3-demos.onrender.com',
+        createdAt: new Date(Date.now() - 72 * 60 * 60 * 1000).toISOString(), // 3 days ago
+        nostalgicAppeal: 'medium'
+      }
+    ]
+
+    res.json({
+      timestamp: new Date().toISOString(),
+      featured: featuredResurrections,
+      totalCount: featuredResurrections.length
+    })
+
+  } catch (error) {
+    console.error('Featured resurrections fetch error:', error)
+    res.status(500).json({
+      error: 'Featured resurrections fetch failed',
       message: 'An internal server error occurred. Please try again.'
     })
   }
