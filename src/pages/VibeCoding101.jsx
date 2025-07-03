@@ -255,6 +255,51 @@ export default function VibeCoding101() {
         </div>
       </section>
 
+      {/* Vibe Coding Resources */}
+      <section className="py-20 bg-base-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-base-content mb-4">
+              Vibe Coding Resources
+            </h2>
+            <p className="text-xl max-w-3xl mx-auto">
+              Everything you need to get started with AI-powered development
+            </p>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <div className="card bg-base-100 shadow-lg border border-base-300">
+              <div className="card-body text-center p-8">
+                <div className="text-5xl mb-6">📚</div>
+                <h3 className="card-title justify-center text-2xl mb-4">
+                  Vibe Coding 101 Quick Reference
+                </h3>
+                <p className="text-lg mb-6 max-w-lg mx-auto">
+                  Complete setup guide covering OpenRouter account creation, VS Code installation, 
+                  Cline configuration, and the vibe coding philosophy. Your essential companion 
+                  for the workshop.
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  <div className="badge badge-primary">Setup Guide</div>
+                  <div className="badge badge-secondary">Tool Configuration</div>
+                  <div className="badge badge-accent">Best Practices</div>
+                </div>
+                <div className="card-actions justify-center">
+                  <a 
+                    href="/vibe_coding_cheatsheet.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary btn-lg"
+                  >
+                    View Cheat Sheet
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Resurrect-a-Dead-Language Showcase */}
       <section className="py-20 bg-gradient-to-br from-secondary to-accent text-white">
         <div className="container mx-auto px-4">
