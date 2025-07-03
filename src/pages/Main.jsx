@@ -16,17 +16,7 @@ export default function Main() {
               Bridging complex technical challenges with intuitive, people-first solutions. 
               We deliver engineering excellence that puts human needs at the center of innovation.
             </p>
-            <div className="mt-8 p-6 bg-gradient-to-r from-secondary to-accent text-white rounded-lg max-w-3xl mx-auto">
-              <h3 className="text-2xl font-bold mb-4">🎮 Now featuring Resurrect-a-Dead-Language technology</h3>
-              <p className="text-lg">
-                Transform your team's development capabilities with AI-assisted coding workshops that bridge decades of programming evolution. 
-                Watch AI bring <strong>QBasic, Pascal, and Flash</strong> back to life in modern browsers.
-              </p>
-              <Link to="/vibecoding101" className="btn btn-outline btn-sm mt-4 text-white border-white hover:bg-white hover:text-primary">
-                View Live Demo Gallery →
-              </Link>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <Link to="/portfolio" className="btn btn-primary btn-lg">
                 View Our Work
               </Link>
