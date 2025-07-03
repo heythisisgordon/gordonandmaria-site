@@ -45,7 +45,7 @@ export default function NavBar() {
               ))}
               <li>
                 <Link 
-                  to="/info-session"
+                  to="/vibecoding101"
                   className="btn btn-primary btn-sm mt-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -79,7 +79,7 @@ export default function NavBar() {
       </div>
       
       <div className="navbar-end hidden lg:flex">
-        <Link to="/info-session" className="btn btn-primary">
+        <Link to="/vibecoding101" className="btn btn-primary">
           Vibe Coding 101
         </Link>
       </div>

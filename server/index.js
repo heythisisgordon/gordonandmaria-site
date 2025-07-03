@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { randomUUID } from 'crypto';
 import contactRoutes from './routes/contact.js';
+import workshopRoutes from './routes/workshop.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,15 +16,12 @@ const PORT = process.env.PORT || 3000;
 
 // Validate critical environment variables on startup
 const validateEnvironment = () => {
-  const required = ['EMAIL_PASSWORD'];
-  const missing = required.filter(key => !process.env[key]);
-  
-  if (missing.length > 0) {
-    console.error(`STARTUP_ERROR: Missing environment variables: ${missing.join(', ')}`);
-    process.exit(1);
+  // Make EMAIL_PASSWORD optional for workshop testing
+  if (!process.env.EMAIL_PASSWORD) {
+    console.warn('⚠️  EMAIL_PASSWORD not set - email functionality will be disabled');
+  } else {
+    console.log('✅ Environment validation passed');
   }
-  
-  console.log('✅ Environment validation passed');
 };
 
 // Validate environment before starting server
@@ -100,6 +98,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // API routes
 app.use('/api/contact', contactLimiter, contactRoutes);
+app.use('/api/workshop', workshopRoutes);
 
 // Enhanced health check endpoint
 app.get('/api/health', async (req, res) => {

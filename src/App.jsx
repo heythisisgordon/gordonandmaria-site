@@ -10,6 +10,8 @@ import Resume from './pages/Resume'
 import Contact from './pages/Contact'
 import InfoSession from './pages/InfoSession'
 import StudentShowcase from './pages/StudentShowcase'
+import VibeCoding101 from './pages/VibeCoding101'
+import VibeCoding101Register from './pages/VibeCoding101Register'
 
 function App() {
   return (
@@ -25,6 +27,10 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/info-session" element={<InfoSession />} />
           <Route path="/showcase/:studentId" element={<StudentShowcase />} />
+          
+          {/* Workshop Routes */}
+          <Route path="/vibecoding101" element={<VibeCoding101 />} />
+          <Route path="/vibecoding101/register" element={<VibeCoding101Register />} />
         </Routes>
       </div>
       <Footer />

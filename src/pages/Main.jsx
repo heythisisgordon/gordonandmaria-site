@@ -93,9 +93,9 @@ export default function Main() {
             <Link to="/contact" className="btn btn-secondary btn-lg">
               Get Started Today
             </Link>
-            <Link to="/info-session" className="btn btn-outline btn-lg border-white text-white hover:bg-white hover:text-primary">
-              Join Vibe Coding 101
-            </Link>
+              <Link to="/vibecoding101" className="btn btn-outline btn-lg border-white text-white hover:bg-white hover:text-primary">
+                Join Vibe Coding 101
+              </Link>
           </div>
         </div>
       </section>
