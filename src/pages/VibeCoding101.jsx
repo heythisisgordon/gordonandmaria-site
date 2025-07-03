@@ -1,20 +1,67 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { getContainerStatus } from '../utils/workshopApi'
 
 export default function VibeCoding101() {
   const [selectedContainer, setSelectedContainer] = useState(null)
   const [password, setPassword] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [error, setError] = useState('')
+  const [containers, setContainers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [lastUpdated, setLastUpdated] = useState(null)
+  const [fetchError, setFetchError] = useState(null)
 
-  // Simple container data - in a real app this would come from an API
-  const containers = [
-    { id: 1, status: 'available', password: 'vibe01', url: 'https://vibe-container-1.onrender.com' },
-    { id: 2, status: 'in_use', password: 'vibe02', url: 'https://vibe-container-2.onrender.com' },
-    { id: 3, status: 'available', password: 'vibe03', url: 'https://vibe-container-3.onrender.com' },
-    { id: 4, status: 'offline', password: 'vibe04', url: 'https://vibe-container-4.onrender.com' },
-    { id: 5, status: 'available', password: 'vibe05', url: 'https://vibe-container-5.onrender.com' }
-  ]
+  // Fetch container status from API
+  const fetchContainerStatus = async () => {
+    try {
+      setFetchError(null)
+      const response = await getContainerStatus()
+      
+      // Map API response to UI format
+      const mappedContainers = response.containers.map(container => ({
+        id: parseInt(container.id),
+        fullId: container.fullId,
+        status: mapApiStatusToUIStatus(container.status),
+        password: container.password,
+        url: container.url,
+        lastHealthCheck: container.lastHealthCheck,
+        healthCheckError: container.healthCheckError,
+        assignedTo: container.assignedTo,
+        assignedAt: container.assignedAt
+      }))
+      
+      setContainers(mappedContainers)
+      setLastUpdated(new Date().toLocaleTimeString())
+      setLoading(false)
+      
+    } catch (err) {
+      console.error('Failed to fetch container status:', err)
+      setFetchError(err.message)
+      setLoading(false)
+    }
+  }
+
+  // Map API status to UI status
+  const mapApiStatusToUIStatus = (apiStatus) => {
+    switch (apiStatus) {
+      case 'available': return 'available'
+      case 'assigned': return 'in_use'
+      case 'offline': return 'offline'
+      case 'checking': return 'checking'
+      default: return 'offline'
+    }
+  }
+
+  // Initial load and periodic refresh
+  useEffect(() => {
+    fetchContainerStatus()
+    
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchContainerStatus, 30000)
+    
+    return () => clearInterval(interval)
+  }, [])
 
   const handleContainerAccess = (container) => {
     setSelectedContainer(container)
@@ -38,6 +85,7 @@ export default function VibeCoding101() {
       case 'available': return '🟢'
       case 'in_use': return '🔵'
       case 'offline': return '⚪'
+      case 'checking': return '🟡'
       default: return '⚪'
     }
   }
@@ -47,6 +95,7 @@ export default function VibeCoding101() {
       case 'available': return <span className="badge badge-success">Available</span>
       case 'in_use': return <span className="badge badge-info">In Use</span>
       case 'offline': return <span className="badge badge-ghost">Offline</span>
+      case 'checking': return <span className="badge badge-warning">Checking</span>
       default: return <span className="badge badge-ghost">Unknown</span>
     }
   }
@@ -194,35 +243,99 @@ export default function VibeCoding101() {
             <p className="text-xl mb-8 max-w-2xl mx-auto">
               Select your assigned container and enter your password to access your coding environment
             </p>
+            
+            {/* Status Bar */}
+            <div className="flex justify-center items-center gap-4 mb-6">
+              {lastUpdated && (
+                <p className="text-sm opacity-80">
+                  Last updated: {lastUpdated}
+                </p>
+              )}
+              <button 
+                className="btn btn-sm btn-ghost text-white"
+                onClick={fetchContainerStatus}
+                disabled={loading}
+              >
+                {loading ? <span className="loading loading-spinner loading-xs"></span> : '🔄'}
+                Refresh
+              </button>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-6xl mx-auto">
-            {containers.map((container) => (
-              <div key={container.id} className="card bg-base-100 text-base-content shadow-lg">
-                <div className="card-body text-center p-6">
-                  <h3 className="card-title justify-center text-xl mb-2">
-                    Container {container.id}
-                  </h3>
-                  <div className="text-3xl mb-4">{getContainerIcon(container.status)}</div>
-                  <div className="text-sm mb-4">
-                    {getContainerBadge(container.status)}
-                  </div>
-                  <button 
-                    className={`btn btn-sm w-full ${
-                      container.status === 'available' 
-                        ? 'btn-primary' 
-                        : 'btn-disabled'
-                    }`}
-                    disabled={container.status !== 'available'}
-                    onClick={() => handleContainerAccess(container)}
-                  >
-                    {container.status === 'available' ? 'Access' : 
-                     container.status === 'in_use' ? 'Occupied' : 'Offline'}
-                  </button>
-                </div>
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-12">
+              <span className="loading loading-spinner loading-lg"></span>
+              <p className="mt-4 text-lg">Loading container status...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {fetchError && !loading && (
+            <div className="alert alert-error max-w-2xl mx-auto mb-8">
+              <div>
+                <h3 className="font-bold">Failed to load containers</h3>
+                <div className="text-xs">{fetchError}</div>
               </div>
-            ))}
-          </div>
+              <button 
+                className="btn btn-sm btn-ghost"
+                onClick={fetchContainerStatus}
+              >
+                Try Again
+              </button>
+            </div>
+          )}
+
+          {/* Container Grid */}
+          {!loading && !fetchError && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-6xl mx-auto">
+              {containers.map((container) => (
+                <div key={container.id} className="card bg-base-100 text-base-content shadow-lg">
+                  <div className="card-body text-center p-6">
+                    <h3 className="card-title justify-center text-xl mb-2">
+                      Container {container.id}
+                    </h3>
+                    <div className="text-3xl mb-4">{getContainerIcon(container.status)}</div>
+                    <div className="text-sm mb-4">
+                      {getContainerBadge(container.status)}
+                    </div>
+                    
+                    {/* Health Check Info */}
+                    {container.healthCheckError && (
+                      <div className="tooltip tooltip-error" data-tip={container.healthCheckError}>
+                        <div className="text-xs text-error mb-2">⚠️ Connection Issue</div>
+                      </div>
+                    )}
+                    
+                    <button 
+                      className={`btn btn-sm w-full ${
+                        container.status === 'available' 
+                          ? 'btn-primary' 
+                          : 'btn-disabled'
+                      }`}
+                      disabled={container.status !== 'available'}
+                      onClick={() => handleContainerAccess(container)}
+                    >
+                      {container.status === 'available' ? 'Access' : 
+                       container.status === 'in_use' ? 'Occupied' : 
+                       container.status === 'checking' ? 'Checking...' : 'Offline'}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!loading && !fetchError && containers.length === 0 && (
+            <div className="text-center py-12">
+              <div className="text-6xl mb-4">📦</div>
+              <p className="text-xl">No containers configured</p>
+              <p className="text-sm opacity-80 mt-2">
+                Contact your instructor if you expected to see containers here
+              </p>
+            </div>
+          )}
 
           <div className="text-center mt-8">
             <p className="text-sm opacity-80">

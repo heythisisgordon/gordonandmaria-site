@@ -86,6 +86,58 @@ export async function getAvailableContainers() {
 }
 
 /**
+ * Get real-time container status with health checks
+ * @returns {Promise<Object>} Real-time container status
+ */
+export async function getContainerStatus() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/workshop/containers/status`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Container status check error:', error)
+    throw error
+  }
+}
+
+/**
+ * Trigger manual health check for all containers
+ * @returns {Promise<Object>} Health check results
+ */
+export async function triggerHealthCheck() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/workshop/containers/health-check`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Health check trigger error:', error)
+    throw error
+  }
+}
+
+/**
  * Health check for workshop API
  * @returns {Promise<Object>} API health status
  */

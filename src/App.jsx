@@ -30,7 +30,9 @@ function App() {
           
           {/* Workshop Routes */}
           <Route path="/vibecoding101" element={<VibeCoding101 />} />
+          <Route path="/vibe-coding-101" element={<VibeCoding101 />} />
           <Route path="/vibecoding101/register" element={<VibeCoding101Register />} />
+          <Route path="/vibe-coding-101/register" element={<VibeCoding101Register />} />
         </Routes>
       </div>
       <Footer />

@@ -5,16 +5,134 @@ const router = express.Router()
 // In-memory storage for workshop registrations
 // TODO: Replace with PostgreSQL database in production
 const registrations = new Map()
+
+// Workshop containers with individual URLs and passwords
 const containers = [
   {
     id: 'vibe-container-1',
     url: 'https://vibe-container-1.onrender.com',
-    password: 'workshop2025',
-    status: 'available',
+    password: 'vibe01',
+    status: 'checking',
     assignedTo: null,
-    assignedAt: null
+    assignedAt: null,
+    lastHealthCheck: null,
+    healthCheckError: null
+  },
+  {
+    id: 'vibe-container-2', 
+    url: 'https://vibe-container-2.onrender.com',
+    password: 'vibe02',
+    status: 'checking',
+    assignedTo: null,
+    assignedAt: null,
+    lastHealthCheck: null,
+    healthCheckError: null
+  },
+  {
+    id: 'vibe-container-3',
+    url: 'https://vibe-container-3.onrender.com', 
+    password: 'vibe03',
+    status: 'checking',
+    assignedTo: null,
+    assignedAt: null,
+    lastHealthCheck: null,
+    healthCheckError: null
+  },
+  {
+    id: 'vibe-container-4',
+    url: 'https://vibe-container-4.onrender.com',
+    password: 'vibe04', 
+    status: 'checking',
+    assignedTo: null,
+    assignedAt: null,
+    lastHealthCheck: null,
+    healthCheckError: null
+  },
+  {
+    id: 'vibe-container-5',
+    url: 'https://vibe-container-5.onrender.com',
+    password: 'vibe05',
+    status: 'checking',
+    assignedTo: null,
+    assignedAt: null,
+    lastHealthCheck: null,
+    healthCheckError: null
   }
 ]
+
+/**
+ * Check health of a single container
+ */
+async function checkContainerHealth(container) {
+  try {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+    
+    const response = await fetch(`${container.url}/health`, {
+      method: 'GET',
+      signal: controller.signal,
+      headers: {
+        'User-Agent': 'HCS-Workshop-Health-Check/1.0'
+      }
+    })
+    
+    clearTimeout(timeoutId)
+    
+    if (response.ok) {
+      container.status = container.assignedTo ? 'assigned' : 'available'
+      container.lastHealthCheck = new Date().toISOString()
+      container.healthCheckError = null
+      return true
+    } else {
+      container.status = 'offline'
+      container.lastHealthCheck = new Date().toISOString()
+      container.healthCheckError = `HTTP ${response.status}: ${response.statusText}`
+      return false
+    }
+  } catch (error) {
+    container.status = 'offline'
+    container.lastHealthCheck = new Date().toISOString()
+    
+    if (error.name === 'AbortError') {
+      container.healthCheckError = 'Request timeout (10s)'
+    } else {
+      container.healthCheckError = error.message || 'Connection failed'
+    }
+    
+    return false
+  }
+}
+
+/**
+ * Check health of all containers
+ */
+async function checkAllContainerHealth() {
+  console.log('Starting health check for all containers...')
+  
+  const healthCheckPromises = containers.map(container => 
+    checkContainerHealth(container).catch(error => {
+      console.error(`Health check failed for ${container.id}:`, error)
+      return false
+    })
+  )
+  
+  const results = await Promise.all(healthCheckPromises)
+  const healthyCount = results.filter(Boolean).length
+  
+  console.log(`Health check complete: ${healthyCount}/${containers.length} containers healthy`)
+  
+  return {
+    total: containers.length,
+    healthy: healthyCount,
+    offline: containers.length - healthyCount
+  }
+}
+
+// Start periodic health checks every 2 minutes
+setInterval(checkAllContainerHealth, 2 * 60 * 1000)
+
+// Initial health check on startup
+setTimeout(checkAllContainerHealth, 5000) // Wait 5 seconds after server start
 
 /**
  * Health check endpoint
@@ -176,6 +294,66 @@ router.get('/containers', (req, res) => {
     res.status(500).json({
       error: 'Container check failed',
       message: 'An internal server error occurred. Please try again.'
+    })
+  }
+})
+
+/**
+ * Get real-time container status for frontend
+ */
+router.get('/containers/status', (req, res) => {
+  try {
+    const containerStatus = containers.map(container => ({
+      id: container.id.replace('vibe-container-', ''), // Return just the number (1, 2, 3, etc.)
+      fullId: container.id,
+      url: container.url,
+      password: container.password,
+      status: container.status,
+      lastHealthCheck: container.lastHealthCheck,
+      healthCheckError: container.healthCheckError,
+      assignedTo: container.assignedTo,
+      assignedAt: container.assignedAt
+    }))
+
+    res.json({
+      timestamp: new Date().toISOString(),
+      containers: containerStatus,
+      summary: {
+        total: containers.length,
+        available: containers.filter(c => c.status === 'available').length,
+        assigned: containers.filter(c => c.status === 'assigned').length,
+        offline: containers.filter(c => c.status === 'offline').length,
+        checking: containers.filter(c => c.status === 'checking').length
+      }
+    })
+
+  } catch (error) {
+    console.error('Container status fetch error:', error)
+    res.status(500).json({
+      error: 'Status fetch failed',
+      message: 'An internal server error occurred. Please try again.'
+    })
+  }
+})
+
+/**
+ * Manually trigger health check for all containers
+ */
+router.post('/containers/health-check', async (req, res) => {
+  try {
+    const results = await checkAllContainerHealth()
+    
+    res.json({
+      message: 'Health check completed',
+      results: results,
+      timestamp: new Date().toISOString()
+    })
+
+  } catch (error) {
+    console.error('Manual health check error:', error)
+    res.status(500).json({
+      error: 'Health check failed',
+      message: 'An internal server error occurred during health check.'
     })
   }
 })
