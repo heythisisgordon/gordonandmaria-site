@@ -115,7 +115,7 @@ app.get('/api/health', async (req, res) => {
   // Test email service connectivity
   try {
     const nodemailer = await import('nodemailer');
-    const transporter = nodemailer.default.createTransport({
+    const transporter = nodemailer.default.createTransporter({
       host: 'smtp.privateemail.com',
       port: 465,
       secure: true,
