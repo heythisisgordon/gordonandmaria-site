@@ -14,7 +14,7 @@ export default function Main() {
             </h1>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
               Bridging complex technical challenges with intuitive, people-first solutions. 
-              We deliver engineering excellence that puts human needs at the center of innovation.
+              We deliver engineering excellence that puts user needs at the center of innovation.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <Link to="/portfolio" className="btn btn-primary btn-lg">

@@ -93,7 +93,7 @@ export default function About() {
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-white to-accent-300 rounded-full mx-auto mb-8"></div>
             <p className="text-xl text-engineering-100 leading-relaxed max-w-3xl mx-auto">
-              Human-Centered Systems LLC specializes in engineering solutions that prioritize people alongside technical excellence, ensuring that complex systems remain intuitive, reliable, and aligned with human needs.
+              Human-Centered Systems LLC specializes in engineering solutions that prioritize people alongside technical excellence, ensuring that complex systems remain intuitive, reliable, and aligned with user needs.
             </p>
           </div>
         </div>
