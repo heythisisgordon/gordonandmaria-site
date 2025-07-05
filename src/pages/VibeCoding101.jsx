@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { getContainerStatus, getGalleryStatus, getFeaturedResurrections } from '../utils/workshopApi'
 
 export default function VibeCoding101() {
   const [selectedContainer, setSelectedContainer] = useState(null)
@@ -9,80 +7,43 @@ export default function VibeCoding101() {
   const [error, setError] = useState('')
   const [containers, setContainers] = useState([])
   const [loading, setLoading] = useState(true)
-  const [lastUpdated, setLastUpdated] = useState(null)
   const [fetchError, setFetchError] = useState(null)
-  const [galleryStatus, setGalleryStatus] = useState(null)
-  const [featuredResurrections, setFeaturedResurrections] = useState([])
-  const [galleryLoading, setGalleryLoading] = useState(false)
 
-  // Fetch container status from API
-  const fetchContainerStatus = async () => {
+  // Fetch containers from GitHub JSON
+  const fetchContainers = async () => {
     try {
       setFetchError(null)
-      const response = await getContainerStatus()
+      const response = await fetch(
+        'https://raw.githubusercontent.com/humancenteredsystems/VC-101-workshop/main/container-urls.json'
+      )
       
-      // Map API response to UI format
-      const mappedContainers = response.containers.map(container => ({
-        id: parseInt(container.id),
-        fullId: container.fullId,
-        status: mapApiStatusToUIStatus(container.status),
-        password: container.password,
-        url: container.url,
-        lastHealthCheck: container.lastHealthCheck,
-        healthCheckError: container.healthCheckError,
-        assignedTo: container.assignedTo,
-        assignedAt: container.assignedAt
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      
+      // Map GitHub JSON to existing container format
+      const mappedContainers = data.containers.map((container, index) => ({
+        id: index + 1,                    // For "Container 1" display
+        name: container.name,             // For React key prop
+        password: container.password,     // For password validation
+        url: container.landingUrl         // For window.open() - includes workspace params
       }))
       
       setContainers(mappedContainers)
-      setLastUpdated(new Date().toLocaleTimeString())
       setLoading(false)
       
     } catch (err) {
-      console.error('Failed to fetch container status:', err)
+      console.error('Failed to fetch containers:', err)
       setFetchError(err.message)
       setLoading(false)
     }
   }
 
-  // Map API status to UI status
-  const mapApiStatusToUIStatus = (apiStatus) => {
-    switch (apiStatus) {
-      case 'available': return 'available'
-      case 'assigned': return 'in_use'
-      case 'offline': return 'offline'
-      case 'checking': return 'checking'
-      default: return 'offline'
-    }
-  }
-
-  // Fetch gallery status and featured resurrections
-  const fetchGalleryData = async () => {
-    try {
-      setGalleryLoading(true)
-      const [galleryResponse, resurrectionsResponse] = await Promise.all([
-        getGalleryStatus(),
-        getFeaturedResurrections()
-      ])
-      
-      setGalleryStatus(galleryResponse)
-      setFeaturedResurrections(resurrectionsResponse.featured || [])
-    } catch (err) {
-      console.error('Failed to fetch gallery data:', err)
-    } finally {
-      setGalleryLoading(false)
-    }
-  }
-
-  // Initial load and periodic refresh
+  // Initial load
   useEffect(() => {
-    fetchContainerStatus()
-    fetchGalleryData()
-    
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchContainerStatus, 30000)
-    
-    return () => clearInterval(interval)
+    fetchContainers()
   }, [])
 
   const handleContainerAccess = (container) => {
@@ -102,25 +63,6 @@ export default function VibeCoding101() {
     }
   }
 
-  const getContainerIcon = (status) => {
-    switch (status) {
-      case 'available': return '🟢'
-      case 'in_use': return '🔵'
-      case 'offline': return '⚪'
-      case 'checking': return '🟡'
-      default: return '⚪'
-    }
-  }
-
-  const getContainerBadge = (status) => {
-    switch (status) {
-      case 'available': return <span className="badge badge-success">Available</span>
-      case 'in_use': return <span className="badge badge-info">In Use</span>
-      case 'offline': return <span className="badge badge-ghost">Offline</span>
-      case 'checking': return <span className="badge badge-warning">Checking</span>
-      default: return <span className="badge badge-ghost">Unknown</span>
-    }
-  }
   return (
     <main className="min-h-screen bg-gradient-to-br from-primary to-secondary">
       {/* Hero Section */}
@@ -329,141 +271,6 @@ export default function VibeCoding101() {
         </div>
       </section>
 
-      {/* Resurrect-a-Dead-Language Showcase */}
-      <section className="py-20 bg-gradient-to-br from-secondary to-accent text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              🎮 Resurrect-a-Dead-Language
-            </h2>
-            <p className="text-xl md:text-2xl mb-8 max-w-4xl mx-auto">
-              Transform nostalgic programming languages into modern browser experiences. 
-              Watch AI bring QBasic, Pascal, and Flash back to life in real-time!
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <div className="badge badge-lg bg-white bg-opacity-20 text-white border-white border-opacity-30">
-                QBasic Starfield
-              </div>
-              <div className="badge badge-lg bg-white bg-opacity-20 text-white border-white border-opacity-30">
-                Pascal Fire Effect
-              </div>
-              <div className="badge badge-lg bg-white bg-opacity-20 text-white border-white border-opacity-30">
-                Flash Animation
-              </div>
-              <div className="badge badge-lg bg-white bg-opacity-20 text-white border-white border-opacity-30">
-                AI-Generated Transpilers
-              </div>
-            </div>
-          </div>
-
-          {/* Featured Resurrections */}
-          {!galleryLoading && featuredResurrections.length > 0 && (
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
-              {featuredResurrections.map((resurrection, index) => (
-                <div key={index} className="card bg-base-100 text-base-content shadow-lg hover:shadow-2xl transition-all duration-300">
-                  <div className="card-body">
-                    <h3 className="card-title text-2xl mb-4">
-                      <span className="text-3xl mr-2">
-                        {resurrection.language === 'QBasic' ? '💾' :
-                         resurrection.language === 'Pascal' ? '🔥' :
-                         resurrection.language === 'Flash' ? '⚡' : '💻'}
-                      </span>
-                      {resurrection.language}
-                    </h3>
-                    <h4 className="text-xl font-bold mb-2">{resurrection.title}</h4>
-                    <p className="text-base-content opacity-80 mb-4">
-                      {resurrection.description}
-                    </p>
-                    <div className="flex gap-2 mb-4">
-                      <div className="badge badge-primary">
-                        {resurrection.nostalgicAppeal === 'high' ? 'High Nostalgia' : 'Classic Appeal'}
-                      </div>
-                      <div className="badge badge-ghost">Live Demo</div>
-                    </div>
-                    <div className="card-actions justify-end">
-                      <a 
-                        href={resurrection.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-primary btn-sm"
-                      >
-                        View Demo
-                      </a>
-                      <a 
-                        href={resurrection.galleryUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-outline btn-sm"
-                      >
-                        Full Gallery
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Gallery Status Summary */}
-          {galleryStatus && (
-            <div className="text-center mb-8">
-              <div className="stats stats-vertical lg:stats-horizontal shadow bg-base-100 text-base-content">
-                <div className="stat">
-                  <div className="stat-title">Active Galleries</div>
-                  <div className="stat-value text-primary">
-                    {galleryStatus.containers?.filter(c => c.status === 'active').length || 0}
-                  </div>
-                  <div className="stat-desc">Demo showcase sites</div>
-                </div>
-                <div className="stat">
-                  <div className="stat-title">Total Resurrections</div>
-                  <div className="stat-value text-secondary">
-                    {galleryStatus.totalResurrections || 0}
-                  </div>
-                  <div className="stat-desc">Languages brought back to life</div>
-                </div>
-                <div className="stat">
-                  <div className="stat-title">Featured Demo</div>
-                  <div className="stat-value text-accent">
-                    {galleryStatus.featuredDemo?.language || 'QBasic'}
-                  </div>
-                  <div className="stat-desc">{galleryStatus.featuredDemo?.title || 'Starfield Animation'}</div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Gallery Links */}
-          <div className="text-center">
-            <h3 className="text-2xl font-bold mb-6">Live Demo Galleries</h3>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              {[1, 2, 3, 4, 5].map((galleryNum) => (
-                <a
-                  key={galleryNum}
-                  href={`https://vibe-container-${galleryNum}-demos.onrender.com`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-outline text-white border-white border-opacity-50 hover:bg-white hover:text-primary"
-                >
-                  Gallery {galleryNum}
-                </a>
-              ))}
-            </div>
-            <p className="text-lg opacity-90 max-w-3xl mx-auto">
-              See what students create during the workshop! Each gallery showcases nostalgic programming 
-              languages running in modern browsers, demonstrating the power of AI-assisted transpilation.
-            </p>
-          </div>
-
-          {/* Loading State */}
-          {galleryLoading && (
-            <div className="text-center py-8">
-              <span className="loading loading-spinner loading-lg"></span>
-              <p className="mt-4 text-lg">Loading resurrection showcase...</p>
-            </div>
-          )}
-        </div>
-      </section>
 
       {/* Container Access Board */}
       <section className="py-20 bg-primary text-white">
@@ -476,16 +283,11 @@ export default function VibeCoding101() {
               Select your assigned container and enter your password to access your coding environment
             </p>
             
-            {/* Status Bar */}
+            {/* Refresh Button */}
             <div className="flex justify-center items-center gap-4 mb-6">
-              {lastUpdated && (
-                <p className="text-sm opacity-80">
-                  Last updated: {lastUpdated}
-                </p>
-              )}
               <button 
                 className="btn btn-sm btn-ghost text-white"
-                onClick={fetchContainerStatus}
+                onClick={fetchContainers}
                 disabled={loading}
               >
                 {loading ? <span className="loading loading-spinner loading-xs"></span> : '🔄'}
@@ -511,7 +313,7 @@ export default function VibeCoding101() {
               </div>
               <button 
                 className="btn btn-sm btn-ghost"
-                onClick={fetchContainerStatus}
+                onClick={fetchContainers}
               >
                 Try Again
               </button>
@@ -522,35 +324,21 @@ export default function VibeCoding101() {
           {!loading && !fetchError && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-6xl mx-auto">
               {containers.map((container) => (
-                <div key={container.id} className="card bg-base-100 text-base-content shadow-lg">
+                <div key={container.name} className="card bg-base-100 text-base-content shadow-lg">
                   <div className="card-body text-center p-6">
                     <h3 className="card-title justify-center text-xl mb-2">
                       Container {container.id}
                     </h3>
-                    <div className="text-3xl mb-4">{getContainerIcon(container.status)}</div>
+                    <div className="text-3xl mb-4">🖥️</div>
                     <div className="text-sm mb-4">
-                      {getContainerBadge(container.status)}
+                      <span className="badge badge-success">Available</span>
                     </div>
                     
-                    {/* Health Check Info */}
-                    {container.healthCheckError && (
-                      <div className="tooltip tooltip-error" data-tip={container.healthCheckError}>
-                        <div className="text-xs text-error mb-2">⚠️ Connection Issue</div>
-                      </div>
-                    )}
-                    
                     <button 
-                      className={`btn btn-sm w-full ${
-                        container.status === 'available' 
-                          ? 'btn-primary' 
-                          : 'btn-disabled'
-                      }`}
-                      disabled={container.status !== 'available'}
+                      className="btn btn-primary btn-sm w-full"
                       onClick={() => handleContainerAccess(container)}
                     >
-                      {container.status === 'available' ? 'Access' : 
-                       container.status === 'in_use' ? 'Occupied' : 
-                       container.status === 'checking' ? 'Checking...' : 'Offline'}
+                      Access Container
                     </button>
                   </div>
                 </div>
