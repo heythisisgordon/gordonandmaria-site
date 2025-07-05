@@ -106,6 +106,7 @@ src/
 - [x] **Custom Professional Theme**: Engineering-focused color palette with blue/orange accent colors
 - [x] **Responsive Navigation**: Professional navbar with mobile menu and active state indicators
 - [x] **Section 508 Compliance**: Accessibility features including skip links, ARIA labels, and keyboard navigation
+- [x] **Workshop Container Integration**: Static container configuration with auto-opening VS Code workspace functionality
 
 ## 🔮 Future Development Plans
 
@@ -132,6 +133,44 @@ src/
 - [ ] Consider headless CMS integration (Strapi, Contentful)
 - [ ] Add admin interface for content updates
 - [ ] Implement automated content deployment
+
+## 🛠 Workshop Container Management
+
+The Vibe Coding 101 page uses a static configuration for workshop containers to avoid external dependencies and CSP issues.
+
+### Container Configuration
+
+Containers are defined in `src/pages/VibeCoding101.jsx` in the `WORKSHOP_CONTAINERS` array:
+
+```javascript
+const WORKSHOP_CONTAINERS = [
+  {
+    id: 1,
+    name: 'vibe-container-1',
+    password: 'workshop2025-1',
+    url: 'https://vibe-container-1.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md'
+  },
+  // ... more containers
+]
+```
+
+### Adding/Removing Containers
+
+To modify workshop containers:
+
+1. **Edit the Array**: Update `WORKSHOP_CONTAINERS` in `src/pages/VibeCoding101.jsx`
+2. **Follow URL Pattern**: `https://vibe-container-{N}.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md`
+3. **Update Passwords**: Match the container's actual password configuration
+4. **Test Locally**: Run `npm run dev` and verify containers display correctly
+5. **Deploy**: Push changes to trigger automatic deployment
+
+### URL Parameters
+
+Each container URL includes query parameters for auto-opening functionality:
+- `workspace=/home/coder/project/workspace.code-workspace` - Loads the VS Code workspace
+- `open=/home/coder/project/landing-page.md` - Opens the landing page automatically
+
+This ensures students get immediate access to a properly configured coding environment.
 
 ## 🚀 Deployment
 

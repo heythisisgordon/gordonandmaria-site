@@ -1,50 +1,52 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+
+/**
+ * Workshop Containers Configuration
+ * 
+ * MAINTENANCE NOTE: When adding/removing workshop containers:
+ * 1. Update this WORKSHOP_CONTAINERS array manually
+ * 2. Follow the URL pattern: https://vibe-container-{N}.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md
+ * 3. Update password to match container configuration
+ * 4. Increment id number for display purposes
+ */
+const WORKSHOP_CONTAINERS = [
+  {
+    id: 1,
+    name: 'vibe-container-1',
+    password: 'workshop2025-1',
+    url: 'https://vibe-container-1.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md'
+  },
+  {
+    id: 2,
+    name: 'vibe-container-2',
+    password: 'workshop2025-2',
+    url: 'https://vibe-container-2.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md'
+  },
+  {
+    id: 3,
+    name: 'vibe-container-3',
+    password: 'workshop2025-3',
+    url: 'https://vibe-container-3.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md'
+  },
+  {
+    id: 4,
+    name: 'vibe-container-4',
+    password: 'workshop2025-4',
+    url: 'https://vibe-container-4.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md'
+  },
+  {
+    id: 5,
+    name: 'vibe-container-5',
+    password: 'workshop2025-5',
+    url: 'https://vibe-container-5.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md'
+  }
+]
 
 export default function VibeCoding101() {
   const [selectedContainer, setSelectedContainer] = useState(null)
   const [password, setPassword] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [error, setError] = useState('')
-  const [containers, setContainers] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [fetchError, setFetchError] = useState(null)
-
-  // Fetch containers from GitHub JSON
-  const fetchContainers = async () => {
-    try {
-      setFetchError(null)
-      const response = await fetch(
-        'https://raw.githubusercontent.com/humancenteredsystems/VC-101-workshop/refs/heads/main/container-urls.json'
-      )
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      
-      // Map GitHub JSON to existing container format
-      const mappedContainers = data.containers.map((container, index) => ({
-        id: index + 1,                    // For "Container 1" display
-        name: container.name,             // For React key prop
-        password: container.password,     // For password validation
-        url: container.landingUrl         // For window.open() - includes workspace params
-      }))
-      
-      setContainers(mappedContainers)
-      setLoading(false)
-      
-    } catch (err) {
-      console.error('Failed to fetch containers:', err)
-      setFetchError(err.message)
-      setLoading(false)
-    }
-  }
-
-  // Initial load
-  useEffect(() => {
-    fetchContainers()
-  }, [])
 
   const handleContainerAccess = (container) => {
     setSelectedContainer(container)
@@ -282,80 +284,31 @@ export default function VibeCoding101() {
             <p className="text-xl mb-8 max-w-2xl mx-auto">
               Select your assigned container and enter your password to access your coding environment
             </p>
-            
-            {/* Refresh Button */}
-            <div className="flex justify-center items-center gap-4 mb-6">
-              <button 
-                className="btn btn-sm btn-ghost text-white"
-                onClick={fetchContainers}
-                disabled={loading}
-              >
-                {loading ? <span className="loading loading-spinner loading-xs"></span> : '🔄'}
-                Refresh
-              </button>
-            </div>
           </div>
 
-          {/* Loading State */}
-          {loading && (
-            <div className="text-center py-12">
-              <span className="loading loading-spinner loading-lg"></span>
-              <p className="mt-4 text-lg">Loading container status...</p>
-            </div>
-          )}
-
-          {/* Error State */}
-          {fetchError && !loading && (
-            <div className="alert alert-error max-w-2xl mx-auto mb-8">
-              <div>
-                <h3 className="font-bold">Failed to load containers</h3>
-                <div className="text-xs">{fetchError}</div>
-              </div>
-              <button 
-                className="btn btn-sm btn-ghost"
-                onClick={fetchContainers}
-              >
-                Try Again
-              </button>
-            </div>
-          )}
-
           {/* Container Grid */}
-          {!loading && !fetchError && (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-6xl mx-auto">
-              {containers.map((container) => (
-                <div key={container.name} className="card bg-base-100 text-base-content shadow-lg">
-                  <div className="card-body text-center p-6">
-                    <h3 className="card-title justify-center text-xl mb-2">
-                      Container {container.id}
-                    </h3>
-                    <div className="text-3xl mb-4">🖥️</div>
-                    <div className="text-sm mb-4">
-                      <span className="badge badge-success">Available</span>
-                    </div>
-                    
-                    <button 
-                      className="btn btn-primary btn-sm w-full"
-                      onClick={() => handleContainerAccess(container)}
-                    >
-                      Access Container
-                    </button>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-6xl mx-auto">
+            {WORKSHOP_CONTAINERS.map((container) => (
+              <div key={container.name} className="card bg-base-100 text-base-content shadow-lg">
+                <div className="card-body text-center p-6">
+                  <h3 className="card-title justify-center text-xl mb-2">
+                    Container {container.id}
+                  </h3>
+                  <div className="text-3xl mb-4">🖥️</div>
+                  <div className="text-sm mb-4">
+                    <span className="badge badge-success">Available</span>
                   </div>
+                  
+                  <button 
+                    className="btn btn-primary btn-sm w-full"
+                    onClick={() => handleContainerAccess(container)}
+                  >
+                    Access Container
+                  </button>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {/* Empty State */}
-          {!loading && !fetchError && containers.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">📦</div>
-              <p className="text-xl">No containers configured</p>
-              <p className="text-sm opacity-80 mt-2">
-                Contact your instructor if you expected to see containers here
-              </p>
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
 
           <div className="text-center mt-8">
             <p className="text-sm opacity-80">
