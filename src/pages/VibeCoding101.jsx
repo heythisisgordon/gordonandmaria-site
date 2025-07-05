@@ -14,7 +14,7 @@ export default function VibeCoding101() {
     try {
       setFetchError(null)
       const response = await fetch(
-        'https://raw.githubusercontent.com/humancenteredsystems/VC-101-workshop/main/container-urls.json'
+        'https://raw.githubusercontent.com/humancenteredsystems/VC-101-workshop/refs/heads/main/container-urls.json'
       )
       
       if (!response.ok) {
