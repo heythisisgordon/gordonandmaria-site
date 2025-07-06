@@ -88,7 +88,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Rate limiting
+// Rate limiting for general routes (excluding health check)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
@@ -97,7 +97,13 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(limiter);
+// Apply rate limiting to all routes except health check
+app.use((req, res, next) => {
+  if (req.path === '/api/health') {
+    return next(); // Skip rate limiting for health check
+  }
+  limiter(req, res, next);
+});
 
 // Contact form specific rate limiting
 const contactLimiter = rateLimit({
