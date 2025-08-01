@@ -120,7 +120,7 @@ router.post('/', async (req, res) => {
       from: 'info@humancenteredsystems.io',
       to: 'gordon@humancenteredsystems.io,maria@humancenteredsystems.io',
       replyTo: sanitizedEmail,
-      subject: `Message from ${sanitizedName} - Gordon and Maria`,
+      subject: `FOSTER EMAIL - Message from ${sanitizedName} - Gordon and Maria`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
