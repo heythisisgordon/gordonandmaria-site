@@ -118,17 +118,17 @@ router.post('/', async (req, res) => {
     // Email content
     const emailOptions = {
       from: 'info@humancenteredsystems.io',
-      to: 'gordon@humancenteredsystems.io',
+      to: 'gordon@humancenteredsystems.io,maria@humancenteredsystems.io',
       replyTo: sanitizedEmail,
-      subject: `New Contact Form Inquiry - ${sanitizedName}`,
+      subject: `Message from ${sanitizedName} - Gordon and Maria`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
-            New Contact Form Submission
+            💌 New Message from Family Site
           </h2>
           
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
-            <p style="margin: 10px 0;"><strong>Name:</strong> ${sanitizedName}</p>
+            <p style="margin: 10px 0;"><strong>From:</strong> ${sanitizedName}</p>
             <p style="margin: 10px 0;"><strong>Email:</strong> ${sanitizedEmail}</p>
           </div>
           
@@ -142,7 +142,7 @@ router.post('/', async (req, res) => {
           <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
           
           <p style="color: #666; font-size: 14px;">
-            <strong>Submitted:</strong> ${new Date().toLocaleString('en-US', {
+            <strong>Received:</strong> ${new Date().toLocaleString('en-US', {
               timeZone: 'America/New_York',
               year: 'numeric',
               month: 'long',
@@ -154,21 +154,21 @@ router.post('/', async (req, res) => {
           </p>
           
           <p style="color: #666; font-size: 12px; margin-top: 20px;">
-            This email was sent from the Human-Centered Systems LLC contact form.
+            This message was sent through the Gordon and Maria family website contact form.
             Reply to this email to respond directly to the sender.
           </p>
         </div>
       `,
       text: `
-        New Contact Form Submission
+        New Message from Family Site
         
-        Name: ${sanitizedName}
+        From: ${sanitizedName}
         Email: ${sanitizedEmail}
         
         Message:
         ${sanitizedMessage}
         
-        Submitted: ${new Date().toLocaleString('en-US', {
+        Received: ${new Date().toLocaleString('en-US', {
           timeZone: 'America/New_York'
         })} EST
       `
@@ -189,7 +189,7 @@ router.post('/', async (req, res) => {
     // Return success response with message tracking
     res.json({
       success: true,
-      message: 'Thank you for your message! We\'ll get back to you within 24 hours.',
+      message: 'Thank you for reaching out! We love hearing from you and will get back to you soon.',
       messageId: info.messageId, // For internal tracking
       submissionId: correlationId
     });
@@ -203,7 +203,7 @@ router.post('/', async (req, res) => {
     // Don't expose internal errors to client
     res.status(500).json({
       success: false,
-      error: 'Unable to send message at this time. Please try again later or contact us directly at info@humancenteredsystems.io.',
+      error: 'Unable to send message at this time. Please try again later or email us directly at info@humancenteredsystems.io.',
       submissionId: correlationId // For user reference when contacting support
     });
   }

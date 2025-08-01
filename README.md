@@ -1,37 +1,24 @@
-# Human-Centered Systems LLC Website
+# Gordon and Maria - Personal Family Website
 
-A professional corporate website for Human-Centered Systems LLC, an engineering and human-centered design firm.
+A warm, welcoming family website designed to keep our loved ones connected, especially our foster children and extended family.
 
-## 🌐 Live Site
+## 🏠 Live Site
 
-Visit the live site at: [humancenteredsystems.io](https://humancenteredsystems.io)
+Visit us at: [gordonandmaria.com](https://gordonandmaria-site.onrender.com)
 
-## 📋 Current State
+## 📋 About This Site
 
-This is a modern, responsive website built with professional design principles and accessibility in mind. The site currently features:
+This is a personal family website that serves as a digital home where we can:
 
-### Pages
-- **Home** - Professional hero section with company messaging and call-to-action buttons
-- **About** - Complete company overview with Gordon Banks's professional background and credentials
-- **Research** - Placeholder for case studies and research findings
-- **Portfolio** - Project showcase with placeholder content
-- **Team** - Professional experience and team information
-- **Contact** - Contact form for client inquiries
-- **Vibe Coding 101** - Fully functional code submission system for educational programming classes
+### Current Features
+- **Home Page** - Welcoming family introduction with social media connections
+- **Contact Form** - Easy way for family members to reach out and stay in touch
+- **Portal Preview** - Coming soon family connection hub
 
-### Design Features
-- Responsive design optimized for mobile, tablet, and desktop
-- Custom DaisyUI "professional" theme with engineering-focused color palette
-- Section 508 accessibility compliance with proper ARIA labels and keyboard navigation
-- Cross-browser compatibility (Chrome, Firefox, Edge, Brave)
-- Clean, modern layout with professional typography and consistent spacing
-- Dark gradient hero sections with professional styling
-
-### Functional Features
-- **Code Submission System**: Complete Vibe Coding 101 platform with file upload, password protection, and student showcase pages
-- **Professional Navigation**: Clean navbar with mobile responsiveness and active state indicators
-- **Contact Integration**: Ready for backend service integration
-- **Student Showcases**: Individual password-protected pages for displaying submitted code
+### Design Philosophy
+- **Family-Friendly** - Warm, welcoming design that feels like home
+- **Foster-Focused** - Special consideration for our foster children to feel included and loved
+- **Connection-Centered** - Built to maintain relationships across distances and time
 
 ## 🛠 Tech Stack
 
@@ -39,9 +26,9 @@ This is a modern, responsive website built with professional design principles a
 - **Build Tool**: Vite 7
 - **Styling**: Tailwind CSS v3.4.15 + DaisyUI v5.0.43
 - **Routing**: React Router DOM v7.6.2
-- **Theme**: Custom "professional" DaisyUI theme
-- **Fonts**: Inter font family via Google Fonts
-- **Deployment**: Render (static site)
+- **Backend**: Express.js with Node.js
+- **Email Service**: Nodemailer with SMTP
+- **Deployment**: Render (full-stack)
 
 ## 🚀 Getting Started
 
@@ -53,8 +40,8 @@ This is a modern, responsive website built with professional design principles a
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/humancenteredsystems/site.git
-cd site
+git clone <your-repo-url>
+cd gordonandmaria-site
 ```
 
 2. Install dependencies:
@@ -62,115 +49,90 @@ cd site
 npm install
 ```
 
-3. Start the development server:
+3. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your email configuration
+```
+
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:5173](http://localhost:5173) in your browser
+5. In another terminal, start the backend server:
+```bash
+npm run server
+```
+
+6. Open [http://localhost:5173](http://localhost:5173) in your browser
 
 ### Available Scripts
 
-- `npm run dev` - Start development server
+- `npm run dev` - Start development server (frontend)
+- `npm run server` - Start backend server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build locally
 - `npm run lint` - Run ESLint
+- `npm run test` - Run tests
 
 ## 📁 Project Structure
 
 ```
 src/
 ├── components/          # Reusable UI components
-│   ├── NavBar.jsx      # Professional navigation with mobile menu
-│   └── Footer.jsx      # Site footer with company information
+│   ├── NavBar.jsx      # Family-friendly navigation
+│   └── Footer.jsx      # Site footer
 ├── pages/              # Page components
-│   ├── Main.jsx        # Homepage with hero section and services
-│   ├── About.jsx       # Complete company and founder background
-│   ├── Research.jsx    # Research page (placeholder content)
-│   ├── Portfolio.jsx   # Portfolio page (placeholder content)
-│   ├── Resume.jsx      # Team/resume page
-│   ├── Contact.jsx     # Contact form
-│   ├── InfoSession.jsx # Vibe Coding 101 submission system
-│   └── StudentShowcase.jsx # Individual code showcase pages
+│   ├── Main.jsx        # Homepage with family intro & social links
+│   ├── Contact.jsx     # Contact form for family communication
+│   └── Portal.jsx      # Coming soon family portal
+├── utils/              # Utility functions
+│   ├── contactApi.js   # Contact form API integration
+│   └── validation.js   # Form validation logic
 ├── App.jsx             # Main app component with routing
 ├── main.jsx            # Application entry point
-└── index.css           # Global styles (Tailwind v3 imports)
+└── index.css           # Global styles
+
+server/
+├── routes/
+│   └── contact.js      # Contact form email handling
+└── index.js            # Express server configuration
 ```
 
-## ✅ Completed Features
+## ✨ Key Features
 
-### Recently Implemented
-- [x] **Vibe Coding 101 Platform**: Complete code submission system with file upload, password protection, and workflow steps
-- [x] **Student Showcase System**: Individual password-protected pages for displaying submitted code with syntax highlighting
-- [x] **Professional About Page**: Complete company background with Gordon Banks's credentials and experience
-- [x] **Custom Professional Theme**: Engineering-focused color palette with blue/orange accent colors
-- [x] **Responsive Navigation**: Professional navbar with mobile menu and active state indicators
-- [x] **Section 508 Compliance**: Accessibility features including skip links, ARIA labels, and keyboard navigation
-- [x] **Workshop Container Integration**: Static container configuration with auto-opening VS Code workspace functionality
+### 🏡 Home Page
+- Warm family introduction
+- Social media integration (YouTube, TikTok, BlueSky)
+- Preview of latest content feeds (coming soon)
+- Family-friendly messaging and design
 
-## 🔮 Future Development Plans
+### 📧 Contact System
+- Full-featured contact form with validation
+- Email delivery to both Gordon and Maria
+- Family-appropriate messaging
+- Rate limiting and security features
 
-### Content Population
-- [ ] Add real project case studies to Portfolio
-- [ ] Populate Research section with published papers, presentations, patents
-- [ ] Add professional headshots and company photos
-- [ ] Create detailed service offerings pages
+### 🚀 Family Portal (Coming Soon)
+- Video calling capabilities
+- Private family chat
+- Photo sharing
+- Shared calendar
+- Family games
+- Secure, family-only environment
 
-### Feature Enhancements
-- [ ] Integrate contact form with backend service (Netlify Forms, Formspree, etc.)
-- [ ] Add backend processing for Vibe Coding 101 submissions (currently frontend-only)
-- [ ] Implement user authentication for student showcase access
-- [ ] Add admin dashboard for managing code submissions
+## 🔐 Environment Variables
 
-### Technical Improvements
-- [ ] Add SEO optimization (meta tags, structured data)
-- [ ] Implement analytics tracking (Google Analytics, etc.)
-- [ ] Add performance monitoring
-- [ ] Set up automated testing
-- [ ] Implement progressive web app (PWA) features
+Create a `.env` file in the root directory:
 
-### Content Management
-- [ ] Consider headless CMS integration (Strapi, Contentful)
-- [ ] Add admin interface for content updates
-- [ ] Implement automated content deployment
-
-## 🛠 Workshop Container Management
-
-The Vibe Coding 101 page uses a static configuration for workshop containers to avoid external dependencies and CSP issues.
-
-### Container Configuration
-
-Containers are defined in `src/pages/VibeCoding101.jsx` in the `WORKSHOP_CONTAINERS` array:
-
-```javascript
-const WORKSHOP_CONTAINERS = [
-  {
-    id: 1,
-    name: 'vibe-container-1',
-    password: 'workshop2025-1',
-    url: 'https://vibe-container-1.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md'
-  },
-  // ... more containers
-]
 ```
+# Email configuration for contact form
+EMAIL_PASSWORD=your_smtp_password_here
 
-### Adding/Removing Containers
-
-To modify workshop containers:
-
-1. **Edit the Array**: Update `WORKSHOP_CONTAINERS` in `src/pages/VibeCoding101.jsx`
-2. **Follow URL Pattern**: `https://vibe-container-{N}.onrender.com/?workspace=/home/coder/project/workspace.code-workspace&open=/home/coder/project/landing-page.md`
-3. **Update Passwords**: Match the container's actual password configuration
-4. **Test Locally**: Run `npm run dev` and verify containers display correctly
-5. **Deploy**: Push changes to trigger automatic deployment
-
-### URL Parameters
-
-Each container URL includes query parameters for auto-opening functionality:
-- `workspace=/home/coder/project/workspace.code-workspace` - Loads the VS Code workspace
-- `open=/home/coder/project/landing-page.md` - Opens the landing page automatically
-
-This ensures students get immediate access to a properly configured coding environment.
+# Environment (set to 'production' on Render)
+NODE_ENV=development
+```
 
 ## 🚀 Deployment
 
@@ -178,25 +140,48 @@ The site is automatically deployed to Render when changes are pushed to the `mai
 
 ### Build Configuration
 - **Build Command**: `npm install && npm run build`
+- **Start Command**: `npm run server`
 - **Output Directory**: `dist`
 - **Node Version**: 22.16.0
 
-## 🤝 Contributing
+## 🗺️ Roadmap
 
-This is a private repository for Human-Centered Systems LLC. For internal development:
+### Phase 1 - Foundation ✅
+- [x] Basic site structure
+- [x] Family-friendly design
+- [x] Contact form functionality
+- [x] Social media integration planning
 
-1. Create a feature branch from `main`
-2. Make your changes
-3. Test locally with `npm run dev`
-4. Commit and push to your branch
-5. Create a pull request for review
+### Phase 2 - Portal Development (Q1-Q2 2025)
+- [ ] User authentication system
+- [ ] Video calling integration (WebRTC)
+- [ ] Private family chat
+- [ ] Photo sharing capabilities
 
-## 📄 License
+### Phase 3 - Advanced Features (Q3 2025)
+- [ ] Live social media feeds
+- [ ] Family calendar integration
+- [ ] Interactive family games
+- [ ] Mobile app considerations
 
-Private repository - All rights reserved by Human-Centered Systems LLC.
+## 🤝 Family Access
 
-## 📞 Contact
+This website is designed specifically for our family members, with special consideration for:
 
-For questions about this website or Human-Centered Systems LLC services:
+- **Foster Children**: Easy access to reach out and stay connected
+- **Extended Family**: Simple way to keep in touch and share updates  
+- **Close Friends**: Welcome space to connect and share life together
+
+## 📞 Contact & Support
+
+For technical issues or questions about the website:
 - Email: info@humancenteredsystems.io
-- Website: [humancenteredsystems.io](https://humancenteredsystems.io)
+- Website: [gordonandmaria.com](https://gordonandmaria-site.onrender.com)
+
+## 💕 A Note to Our Family
+
+This website is built with love as a digital space where our family can stay connected. Whether you're near or far, just checking in or sharing big news, this is your space too. We're always here for you.
+
+---
+
+*Built with ❤️ by Gordon and Maria for our wonderful family*

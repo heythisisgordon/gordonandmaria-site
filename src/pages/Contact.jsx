@@ -79,32 +79,31 @@ export default function Contact() {
     <section className="hero bg-base-200 min-h-screen py-12">
       <div className="hero-content flex-col lg:flex-row max-w-6xl">
         <div className="text-center lg:text-left lg:w-1/2 lg:pr-12">
-          <h1 className="text-4xl font-bold">Get in Touch</h1>
+          <h1 className="text-4xl font-bold">We'd Love to Hear From You! 💌</h1>
           <p className="py-6 text-lg">
-            Ready to discuss your project? We'd love to hear from you. 
-            Reach out to explore how Human-Centered Systems can help bring 
-            your vision to life.
+            Whether you're checking in, sharing updates, want to catch up, or just want to say hello -
+            we're always excited to hear from our family. Your messages mean the world to us!
           </p>
           
           <div className="space-y-4 mt-8">
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span>Professional engineering and design services</span>
+              <span>We love hearing about your adventures and milestones</span>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span>Human-centered approach to every project</span>
+              <span>Share photos, stories, or just say hi!</span>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span>We'll respond within 24 hours</span>
+              <span>We'll get back to you as soon as we can</span>
             </div>
           </div>
         </div>
         
         <div className="card flex-shrink-0 w-full lg:w-1/2 max-w-lg shadow-2xl bg-base-100">
           <div className="card-body">
-            <h2 className="card-title text-2xl mb-4">Send us a message</h2>
+            <h2 className="card-title text-2xl mb-4">Send us a message 📩</h2>
             
             {/* Success Message */}
             {submitStatus === 'success' && (
@@ -204,7 +203,7 @@ export default function Contact() {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  placeholder="Tell us about your project, goals, timeline, or any questions you have..."
+                  placeholder="Tell us what's going on in your life, share any updates, ask questions, or just say hello..."
                   className={`textarea textarea-bordered focus:textarea-primary h-32 resize-none ${
                     messageCharCount.isOverLimit ? 'textarea-error' : ''
                   }`}
@@ -214,7 +213,7 @@ export default function Contact() {
                 />
                 <label className="label">
                   <span className="label-text-alt text-base-content/60">
-                    Minimum 10 characters required
+                    We'd love to hear from you - no message is too short or too long!
                   </span>
                 </label>
               </div>
@@ -240,13 +239,16 @@ export default function Contact() {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-base-content/60">
-                You can also reach us directly at{' '}
-                <a 
-                  href="mailto:info@humancenteredsystems.io" 
+                You can also email us directly at{' '}
+                <a
+                  href="mailto:info@humancenteredsystems.io"
                   className="link link-primary"
                 >
                   info@humancenteredsystems.io
                 </a>
+              </p>
+              <p className="text-xs text-base-content/50 mt-2">
+                We're always here for our family ❤️
               </p>
             </div>
           </div>

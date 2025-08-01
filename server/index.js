@@ -6,7 +6,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { randomUUID } from 'crypto';
 import contactRoutes from './routes/contact.js';
-import workshopRoutes from './routes/workshop.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -69,7 +68,11 @@ const corsOptions = {
     
     if (process.env.NODE_ENV === 'production') {
       // Production: Only allow specific domains
-      const allowedOrigins = ['https://humancenteredsystems.io', 'https://www.humancenteredsystems.io'];
+      const allowedOrigins = [
+        'https://gordonandmaria.com',
+        'https://www.gordonandmaria.com',
+        'https://gordonandmaria-site.onrender.com'
+      ];
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
@@ -122,7 +125,6 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // API routes
 app.use('/api/contact', contactLimiter, contactRoutes);
-app.use('/api/workshop', workshopRoutes);
 
 // Enhanced health check endpoint
 app.get('/api/health', async (req, res) => {

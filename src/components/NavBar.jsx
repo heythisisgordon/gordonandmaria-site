@@ -9,11 +9,8 @@ export default function NavBar() {
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Research', href: '/research' },
-    { name: 'Portfolio', href: '/portfolio' },
-    { name: 'Team', href: '/resume' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Portal', href: '/portal' },
   ]
 
   return (
@@ -43,23 +40,14 @@ export default function NavBar() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link 
-                  to="/vibecoding101"
-                  className="btn btn-primary btn-sm mt-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Vibe Coding 101
-                </Link>
-              </li>
             </ul>
           )}
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center mr-2">
-            <span className="text-white font-bold">H</span>
+            <span className="text-white font-bold">G&M</span>
           </div>
-          Human-Centered Systems
+          Gordon and Maria
         </Link>
       </div>
       
@@ -79,8 +67,8 @@ export default function NavBar() {
       </div>
       
       <div className="navbar-end hidden lg:flex">
-        <Link to="/vibecoding101" className="btn btn-primary">
-          Vibe Coding 101
+        <Link to="/contact" className="btn btn-primary">
+          Get in Touch
         </Link>
       </div>
     </div>
