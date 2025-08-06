@@ -12,9 +12,8 @@ export default function Main() {
               Welcome to Our Family! 👨‍👩‍👧‍👦
             </h1>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Hey there! We're Gordon and Maria, and this is our little corner of the internet. 
-              Whether you're part of our family, someone we've fostered, or just stopping by - 
-              we're so glad you're here!
+              Hey there! We're Gordon and Maria, and this is our little corner of the internet.
+              Whether you're part of our family or just stopping by - we're so glad you're here!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <Link to="/contact" className="btn btn-primary btn-lg">
@@ -61,8 +60,7 @@ export default function Main() {
                   Maria
                 </h3>
                 <p>
-                  Creative soul, loving mom, and the heart of our home. Follow along with 
-                  our daily adventures and family moments on my TikTok!
+                  Creative soul, loving mom, and the heart of our home.
                 </p>
               </div>
             </div>
