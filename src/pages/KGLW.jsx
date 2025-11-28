@@ -20,7 +20,7 @@ export default function KGLW() {
         <div className="container mx-auto px-4">
           <div className="bg-base-200 rounded-lg shadow-lg overflow-hidden">
             <iframe
-              src="https://onedrive.live.com/?id=%2Fpersonal%2Fbf7fcbdbb5f6344f%2FDocuments%2FMusic%2FMusic%2FKing%20Gizzard%20and%20the%20Lizard%20Wizard"
+              src="https://1drv.ms/f/c/bf7fcbdbb5f6344f/EkXxoTNG5TNBsbJNI8_lkvIBWQajLt0qvYY3xYtg6-tYYg?e=4a1D9d"
               width="100%"
               height="800"
               frameBorder="0"
