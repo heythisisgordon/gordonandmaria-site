@@ -4,7 +4,6 @@ import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import Main from './pages/Main'
 import Contact from './pages/Contact'
-import Portal from './pages/Portal'
 
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/portal" element={<Portal />} />
         </Routes>
       </div>
       <Footer />

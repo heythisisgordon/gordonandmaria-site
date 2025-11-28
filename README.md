@@ -13,7 +13,6 @@ This is a personal family website that serves as a digital home where we can:
 ### Current Features
 - **Home Page** - Welcoming family introduction with social media connections
 - **Contact Form** - Easy way for family members to reach out and stay in touch
-- **Portal Preview** - Coming soon family connection hub
 
 ### Design Philosophy
 - **Family-Friendly** - Warm, welcoming design that feels like home
@@ -85,8 +84,7 @@ src/
 │   └── Footer.jsx      # Site footer
 ├── pages/              # Page components
 │   ├── Main.jsx        # Homepage with family intro & social links
-│   ├── Contact.jsx     # Contact form for family communication
-│   └── Portal.jsx      # Coming soon family portal
+│   └── Contact.jsx     # Contact form for family communication
 ├── utils/              # Utility functions
 │   ├── contactApi.js   # Contact form API integration
 │   └── validation.js   # Form validation logic
@@ -113,14 +111,6 @@ server/
 - Email delivery to both Gordon and Maria
 - Family-appropriate messaging
 - Rate limiting and security features
-
-### 🚀 Family Portal (Coming Soon)
-- Video calling capabilities
-- Private family chat
-- Photo sharing
-- Shared calendar
-- Family games
-- Secure, family-only environment
 
 ## 🔐 Environment Variables
 
@@ -152,16 +142,9 @@ The site is automatically deployed to Render when changes are pushed to the `mai
 - [x] Contact form functionality
 - [x] Social media integration planning
 
-### Phase 2 - Portal Development (Q1-Q2 2025)
-- [ ] User authentication system
-- [ ] Video calling integration (WebRTC)
-- [ ] Private family chat
-- [ ] Photo sharing capabilities
-
-### Phase 3 - Advanced Features (Q3 2025)
+### Phase 2 - Advanced Features (2025)
 - [ ] Live social media feeds
-- [ ] Family calendar integration
-- [ ] Interactive family games
+- [ ] Enhanced family connection features
 - [ ] Mobile app considerations
 
 ## 🤝 Family Access

@@ -19,9 +19,6 @@ export default function Main() {
               <Link to="/contact" className="btn btn-primary btn-lg">
                 Say Hello! 💌
               </Link>
-              <Link to="/portal" className="btn btn-outline btn-lg text-white border-white hover:bg-white hover:text-blue-700">
-                Family Portal 🔗
-              </Link>
             </div>
           </div>
         </div>
@@ -230,9 +227,6 @@ export default function Main() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact" className="btn btn-secondary btn-lg">
               Send Us a Message 📩
-            </Link>
-            <Link to="/portal" className="btn btn-outline btn-lg border-white text-white hover:bg-white hover:text-primary">
-              Check Out the Portal 🚀
             </Link>
           </div>
         </div>
