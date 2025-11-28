@@ -4,6 +4,7 @@ import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import Main from './pages/Main'
 import Contact from './pages/Contact'
+import KGLW from './pages/KGLW'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/kglw" element={<KGLW />} />
         </Routes>
       </div>
       <Footer />

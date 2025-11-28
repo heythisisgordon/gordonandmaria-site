@@ -10,6 +10,7 @@ export default function NavBar() {
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Contact', href: '/contact' },
+    { name: 'KGLW', href: '/kglw' },
   ]
 
   return (
